@@ -9,7 +9,7 @@ class Helper:
     textures_dir: str
 
     def __init__(self):
-        Helper.assets_dir = os.path.join("assets")
+        Helper.assets_dir=os.path.join("assets")
         Helper.sprites_dir = os.path.join(self.assets_dir, "sprites")
         Helper.textures_dir = os.path.join(self.assets_dir, "textures")
 

@@ -1,9 +1,10 @@
-import pygame as pg
+import pygame
 import math
 from constants import *
 
 
 class RayCasting:
+
     def __init__(self, game):
         self.game = game
         self.ray_casting_result = []
@@ -17,17 +18,18 @@ class RayCasting:
 
             if proj_height < GAME_HEIGHT:
                 wall_column = self.textures[texture].subsurface(
-                    offset * (TEXTURE_SIZE - SCALE), 0, SCALE, TEXTURE_SIZE
-                )
-                wall_column = pg.transform.scale(wall_column, (SCALE, proj_height))
+                    offset * (TEXTURE_SIZE - SCALE), 0, SCALE, TEXTURE_SIZE)
+                wall_column = pygame.transform.scale(wall_column,
+                                                     (SCALE, proj_height))
                 wall_pos = (ray * SCALE, HALF_HEIGHT - proj_height // 2)
             else:
                 texture_height = TEXTURE_SIZE * GAME_HEIGHT / proj_height
                 wall_column = self.textures[texture].subsurface(
-                    offset * (TEXTURE_SIZE - SCALE), HALF_TEXTURE_SIZE - texture_height // 2,
-                    SCALE, texture_height
-                )
-                wall_column = pg.transform.scale(wall_column, (SCALE, GAME_HEIGHT))
+                    offset * (TEXTURE_SIZE - SCALE),
+                    HALF_TEXTURE_SIZE - texture_height // 2, SCALE,
+                    texture_height)
+                wall_column = pygame.transform.scale(wall_column,
+                                                     (SCALE, GAME_HEIGHT))
                 wall_pos = (ray * SCALE, 0)
 
             self.objects_to_render.append((depth, wall_column, wall_pos))
@@ -54,9 +56,14 @@ class RayCasting:
 
             for i in range(MAX_DEPTH):
                 tile_hor = int(x_hor), int(y_hor)
-                if tile_hor in self.game.map.world_map:
-                    texture_hor = self.game.map.world_map[tile_hor]
+                # if tile_hor in self.game.map.world_map:
+                if tile_hor[1] == 0 or tile_hor[1] == 3:
+                    if tile_hor[0] % 10 == 0:
+                        texture_hor = 2
+                        break
+                    texture_hor = 1  #self.game.map.world_map[tile_hor]
                     break
+
                 x_hor += dx
                 y_hor += dy
                 depth_hor += delta_depth
@@ -72,9 +79,14 @@ class RayCasting:
 
             for i in range(MAX_DEPTH):
                 tile_vert = int(x_vert), int(y_vert)
-                if tile_vert in self.game.map.world_map:
-                    texture_vert = self.game.map.world_map[tile_vert]
-                    break
+                #RENDER THE EXIT DOOR AT MAX DEPTH
+                if i==MAX_DEPTH-1:
+                    if tile_vert[1] == 1:
+                        texture_vert = 0
+                        break
+                    if tile_vert[1] == 2:
+                        texture_vert = 0
+                        break
                 x_vert += dx
                 y_vert += dy
                 depth_vert += delta_depth
@@ -96,7 +108,8 @@ class RayCasting:
             proj_height = SCREEN_DIST / (depth + 0.0001)
 
             # ray casting result
-            self.ray_casting_result.append((depth, proj_height, texture, offset))
+            self.ray_casting_result.append(
+                (depth, proj_height, texture, offset))
 
             ray_angle += DELTA_ANGLE
 
