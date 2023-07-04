@@ -2,6 +2,8 @@ from constants import *
 import pygame
 import math
 
+from helper import Helper
+
 
 class Player:
 
@@ -14,8 +16,9 @@ class Player:
         self.rel = 0
         self.health_recovery_delay = 700
         self.time_prev = pygame.time.get_ticks()
-        # diagonal movement correction
-        self.diag_move_corr = 1 / math.sqrt(2)
+        self.player_hit = False
+        self.player_pain = Helper.PrepareSound("player_pain.wav")
+        self.blood_screen = Helper.LoadTexture('blood_texture.png', RES)
 
     def recover_health(self):
         if self.check_health_recovery_delay(
@@ -38,15 +41,14 @@ class Player:
 
     def get_damage(self, damage):
         self.health -= damage
-        self.game.object_renderer.player_damage()
-        self.game.sound.player_pain.play()
+        self.player_hit = True
+        self.player_pain.play()
         self.check_game_over()
 
     def single_fire_event(self, event):
         pass
 
     def movement(self, delta_time):
-
         dx, dy = self.forward_speed * delta_time, 0
         speed = PLAYER_SIDEWAYS_SPEED * delta_time
 
@@ -70,6 +72,11 @@ class Player:
         self.movement(delta_time)
         # self.mouse_control()
         self.recover_health()
+
+    def draw(self, screen):
+        if self.player_hit:
+            screen.blit(self.blood_screen, (0, 0))
+            self.player_hit = False
 
     @property
     def pos(self):

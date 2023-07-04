@@ -11,7 +11,6 @@ class ObjectRenderer:
         self.sky_image = Helper.LoadTexture('sky.png',
                                             (GAME_WIDTH, HALF_HEIGHT))
         self.sky_offset = 0
-        self.blood_screen = Helper.LoadTexture('blood_texture.png', RES)
         # self.digit_size = 90
         # self.digit_images = [Helper.LoadTexture(f'resources/textures/digits/{i}.png', [self.digit_size] * 2)
         #                      for i in range(11)]
@@ -44,9 +43,6 @@ class ObjectRenderer:
         # for i, char in enumerate(health):
         #     screen.blit(self.digits[char], (i * self.digit_size, 0))
         # screen.blit(self.digits['10'], ((i + 1) * self.digit_size, 0))
-
-    def player_damage(self):
-        self.screen.blit(self.blood_screen, (0, 0))
 
     def draw_background(self, screen):
         self.sky_offset = (self.sky_offset +

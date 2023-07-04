@@ -77,8 +77,8 @@ class Game():
         self.prev_time = now
 
     def load_assets(self):
-        # Create pointers to directories
         _ = Helper()
+        Helper.PlayMusic("8bit_tune.mp3")
 
     def load_states(self):
         self.title_screen = MainMenu(self)
@@ -87,18 +87,6 @@ class Game():
     def reset_keys(self):
         for action in self.actions:
             self.actions[action] = False
-
-    def PlayMusic(self, soundFile: str, volume=0.5):
-        soundFile = os.path.join(self.assets_dir, soundFile)
-        pygame.mixer.music.load(soundFile)
-        pygame.mixer.music.play(-1)
-        pygame.mixer.music.set_volume(volume)
-
-    def PrepareSound(self, soundFile: str, volume=1.0) -> pygame.mixer.Sound:
-        soundFile = os.path.join(self.assets_dir, soundFile)
-        sound = pygame.mixer.Sound(soundFile)
-        sound.set_volume(volume)
-        return sound
 
 
 if __name__ == "__main__":

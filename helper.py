@@ -4,14 +4,16 @@ from constants import GAME_WIDTH, PIVOT, TEXTURE_SIZE
 
 
 class Helper:
+
     def __init__(self):
+        # Create pointers to directories
         Helper.assets_dir = os.path.join("assets")
         Helper.sprites_dir = os.path.join(self.assets_dir, "sprites")
+        Helper.sounds_dir = os.path.join(self.assets_dir, "sounds")
         Helper.textures_dir = os.path.join(self.assets_dir, "textures")
         Helper.font = pygame.font.SysFont("Arial", 26)
         Helper.bold_font = pygame.font.SysFont("Arial", 26, True)
         Helper.big_font = pygame.font.SysFont("Arial", 36)
-
 
     @staticmethod
     def LoadSprite(spriteFile: str, size=None) -> pygame.Surface:
@@ -32,7 +34,7 @@ class Helper:
         # create the Surface and the rectangle for some text.
         surface = Helper.font.render(text, True, color)
         return surface, surface.get_rect()
-    
+
     @staticmethod
     def draw_text(surface,
                   text,
@@ -72,3 +74,17 @@ class Helper:
         rect.centerx = GAME_WIDTH / 2.0
         if y >= 0:
             rect.y = y
+
+    @staticmethod
+    def PrepareSound(soundFile: str, volume=1.0) -> pygame.mixer.Sound:
+        soundFile = os.path.join(Helper.sounds_dir, soundFile)
+        sound = pygame.mixer.Sound(soundFile)
+        sound.set_volume(volume)
+        return sound
+
+    @staticmethod
+    def PlayMusic(soundFile: str, volume=0.5):
+        soundFile = os.path.join(Helper.sounds_dir, soundFile)
+        pygame.mixer.music.load(soundFile)
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(volume)
