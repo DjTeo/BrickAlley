@@ -59,8 +59,9 @@ class ObjectRenderer:
 
     def load_wall_textures(self):
         return {
+            0:Helper.LoadTexture('void.png'),
             1: Helper.LoadTexture('wallTexture.png'),
-            # 2: self.get_texture('resources/textures/2.png'),
+            2: Helper.LoadTexture('2.png'),
             # 3: self.get_texture('resources/textures/3.png'),
             # 4: self.get_texture('resources/textures/4.png'),
             # 5: self.get_texture('resources/textures/5.png'),
