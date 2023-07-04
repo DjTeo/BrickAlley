@@ -31,22 +31,21 @@ class ObjectRenderer:
         # self.digit_images = [Helper.LoadTexture(f'resources/textures/digits/{i}.png', [self.digit_size] * 2)
         #                      for i in range(11)]
         # self.digits = dict(zip(map(str, range(11)), self.digit_images))
-        # self.game_over_image = Helper.LoadTexture('resources/textures/game_over.png', RES)
-        # self.win_image = Helper.LoadTexture('resources/textures/win.png', RES)
+        self.game_over_image = Helper.LoadTexture('game_over.png', RES)
+        self.win_image = Helper.LoadTexture('victory.png', RES)
 
     def draw(self, screen):
         self.draw_background(screen)
         self.render_game_objects(screen)
         self.draw_player_health(screen)
         self.draw_hands(screen)
+        self.drawWinLose(screen)
 
-    def win(self):
-        #     self.screen.blit(self.win_image, (0, 0))
-        pass
-
-    def game_over(self):
-        #     self.screen.blit(self.game_over_image, (0, 0))
-        pass
+    def drawWinLose(self, screen):
+        if self.game.game_over:
+            screen.blit(self.game_over_image, (0, 0))
+        elif self.game.victory:
+            screen.blit(self.win_image, (0, 0))
 
     def draw_player_health(self, screen):
         health = str(self.game.player.health)
@@ -62,8 +61,7 @@ class ObjectRenderer:
         # screen.blit(self.digits['10'], ((i + 1) * self.digit_size, 0))
 
     def draw_background(self, screen):
-        self.sky_offset = (self.sky_offset +
-                           4.5 * self.game.player.rel) % GAME_WIDTH
+        self.sky_offset = self.sky_offset % GAME_WIDTH
         screen.blit(self.sky_image, (-self.sky_offset, 0))
         screen.blit(self.sky_image, (-self.sky_offset + GAME_WIDTH, 0))
         # floor

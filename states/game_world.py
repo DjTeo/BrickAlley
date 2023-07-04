@@ -13,22 +13,22 @@ class GameWorld(State):
         State.__init__(self, game)
         self.groundOffset = 55
         self.game_over = False
+        self.victory = False
         self.itemsCount = 10
         self.playerNum = 1
         self.current_distance: float = 0
         self.player = Player(self)
-
         self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self)
-
         self.object_handler = ObjectHandler(self)
 
     def update(self, delta_time, actions):
-        self.player.update(delta_time)
-        self.raycasting.update()
-        self.object_handler.update()
         pygame.display.set_caption(
             f'Brick Alley - {self.clock.get_fps() :.1f}FPS')
+        if not self.game_over and not self.victory:
+            self.player.update(delta_time)
+            self.raycasting.update()
+            self.object_handler.update()
 
     def render(self, display):
         #display.fill('black')
