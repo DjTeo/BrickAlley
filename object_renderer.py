@@ -25,11 +25,11 @@ class ObjectRenderer:
         self.draw_player_health(screen)
 
     def win(self):
-    #     self.screen.blit(self.win_image, (0, 0))
+        #     self.screen.blit(self.win_image, (0, 0))
         pass
 
     def game_over(self):
-    #     self.screen.blit(self.game_over_image, (0, 0))
+        #     self.screen.blit(self.game_over_image, (0, 0))
         pass
 
     def draw_player_health(self, screen):
@@ -59,10 +59,9 @@ class ObjectRenderer:
 
     def load_wall_textures(self):
         return {
-            0:Helper.LoadTexture('void.png'),
+            0: Helper.LoadTexture('void.png'),
             1: Helper.LoadTexture('wallTexture.png'),
-            2: Helper.LoadTexture('2.png'),
-            # 3: self.get_texture('resources/textures/3.png'),
-            # 4: self.get_texture('resources/textures/4.png'),
-            # 5: self.get_texture('resources/textures/5.png'),
+            2: Helper.LoadTexture('wallHoleTexture.png'),
+            3: Helper.LoadTexture('doorLeft.png'),
+            4: Helper.LoadTexture('doorRight.png'),
         }

@@ -8,8 +8,6 @@ from states.main_menu import MainMenu
 
 
 class Game():
-    sprites_dir: str
-
     def __init__(self):
         pygame.init()
 
@@ -132,10 +130,7 @@ class Game():
 
     def load_assets(self):
         # Create pointers to directories
-        # Game.assets_dir = os.path.join("assets")
         # self.font_dir = os.path.join(self.assets_dir, "font")
-        # Game.sprites_dir = os.path.join(self.assets_dir, "sprites")
-        # Game.textures_dir = os.path.join(self.assets_dir, "textures")
         # self.font = pygame.font.Font(os.path.join(self.font_dir, "myFont.ttf"), 26)
         # self.big_font = pygame.font.Font(os.path.join(self.font_dir, "myFont.ttf"), 36)
         _ = Helper()
