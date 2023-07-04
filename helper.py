@@ -1,17 +1,17 @@
 import pygame, os
 
-from constants import TEXTURE_SIZE
+from constants import GAME_WIDTH, PIVOT, TEXTURE_SIZE
 
 
 class Helper:
-    assets_dir: str
-    sprites_dir: str
-    textures_dir: str
-
     def __init__(self):
-        Helper.assets_dir=os.path.join("assets")
+        Helper.assets_dir = os.path.join("assets")
         Helper.sprites_dir = os.path.join(self.assets_dir, "sprites")
         Helper.textures_dir = os.path.join(self.assets_dir, "textures")
+        Helper.font = pygame.font.SysFont("Arial", 26)
+        Helper.bold_font = pygame.font.SysFont("Arial", 26, True)
+        Helper.big_font = pygame.font.SysFont("Arial", 36)
+
 
     @staticmethod
     def LoadSprite(spriteFile: str, size=None) -> pygame.Surface:
@@ -26,3 +26,49 @@ class Helper:
         textureFile = os.path.join(Helper.textures_dir, textureFile)
         texture = pygame.image.load(textureFile).convert_alpha()
         return pygame.transform.scale(texture, res)
+
+    @staticmethod
+    def makeText(text: str, color):
+        # create the Surface and the rectangle for some text.
+        surface = Helper.font.render(text, True, color)
+        return surface, surface.get_rect()
+    
+    @staticmethod
+    def draw_text(surface,
+                  text,
+                  color,
+                  x,
+                  y,
+                  big=False,
+                  centerX=False,
+                  pivot: PIVOT = PIVOT.center,
+                  bold=False):
+        if big:
+            text_surface = Helper.big_font.render(text, True, color)
+        elif bold:
+            text_surface = Helper.bold_font.render(text, True, color)
+        else:
+            text_surface = Helper.font.render(text, True, color)
+
+        text_rect = text_surface.get_rect()
+        match pivot:
+            case PIVOT.topLeft:
+                text_rect.topleft = (x, y)
+            case PIVOT.topRight:
+                text_rect.topright = (x, y)
+            case PIVOT.bottomLeft:
+                text_rect.bottomleft = (x, y)
+            case PIVOT.bottomRight:
+                text_rect.bottomright = (x, y)
+            case _:  # PIVOT.center:
+                text_rect.center = (x, y)
+
+        if centerX:
+            Helper.CenterRect(text_rect, -1)
+        surface.blit(text_surface, text_rect)
+
+    @staticmethod
+    def CenterRect(rect: pygame.Rect, y: float):
+        rect.centerx = GAME_WIDTH / 2.0
+        if y >= 0:
+            rect.y = y
