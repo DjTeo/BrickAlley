@@ -27,11 +27,13 @@ class GameWorld(State):
         self.player.update(delta_time)
         self.raycasting.update()
         self.object_handler.update()
-        pygame.display.set_caption(f'Brick Alley - {self.clock.get_fps() :.1f}FPS')
+        pygame.display.set_caption(
+            f'Brick Alley - {self.clock.get_fps() :.1f}FPS')
 
     def render(self, display):
         #display.fill('black')
         self.object_renderer.draw(display)
+        self.player.draw(display)
 
     def handle_event(self, event: pygame.event.Event):
         if (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):

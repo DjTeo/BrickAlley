@@ -11,10 +11,11 @@ class ObjectRenderer:
         self.sky_image = Helper.LoadTexture('sky.png',
                                             (GAME_WIDTH, HALF_HEIGHT))
         self.sky_offset = 0
-        self.blood_screen = Helper.LoadTexture('blood_texture.png', RES)
-        self.left_hand=Helper.LoadSprite('leftHand.png',(GAME_WIDTH/4,GAME_HEIGHT/2))
-        self.right_hand=Helper.LoadSprite('rightHand.png',(GAME_WIDTH/4,GAME_HEIGHT/2))
-        
+        self.left_hand = Helper.LoadSprite('leftHand.png',
+                                           (GAME_WIDTH / 4, GAME_HEIGHT / 2))
+        self.right_hand = Helper.LoadSprite('rightHand.png',
+                                            (GAME_WIDTH / 4, GAME_HEIGHT / 2))
+
         # self.digit_size = 90
         # self.digit_images = [Helper.LoadTexture(f'resources/textures/digits/{i}.png', [self.digit_size] * 2)
         #                      for i in range(11)]
@@ -49,9 +50,6 @@ class ObjectRenderer:
         #     screen.blit(self.digits[char], (i * self.digit_size, 0))
         # screen.blit(self.digits['10'], ((i + 1) * self.digit_size, 0))
 
-    def player_damage(self):
-        self.screen.blit(self.blood_screen, (0, 0))
-
     def draw_background(self, screen):
         self.sky_offset = (self.sky_offset +
                            4.5 * self.game.player.rel) % GAME_WIDTH
@@ -61,11 +59,10 @@ class ObjectRenderer:
         pygame.draw.rect(screen, BROWN,
                          (0, HALF_HEIGHT, GAME_WIDTH, GAME_HEIGHT))
 
-    def draw_hands(self,screen):
-        screen.blit(self.left_hand,(325,530))
-        screen.blit(self.right_hand,(885,530))
-        
-        
+    def draw_hands(self, screen):
+        screen.blit(self.left_hand, (325, 530))
+        screen.blit(self.right_hand, (885, 530))
+
     def render_game_objects(self, screen):
         list_objects = sorted(self.game.raycasting.objects_to_render,
                               key=lambda t: t[0],
