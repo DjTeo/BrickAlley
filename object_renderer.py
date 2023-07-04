@@ -1,64 +1,67 @@
-import pygame as pg
+import pygame
 from constants import *
+from helper import Helper
 
 
 class ObjectRenderer:
+
     def __init__(self, game):
         self.game = game
-        self.screen = game.screen
         self.wall_textures = self.load_wall_textures()
-        self.sky_image = self.get_texture('assets/textures/sky.png', (GAME_WIDTH, HALF_HEIGHT))
+        self.sky_image = Helper.LoadTexture('sky.png',
+                                            (GAME_WIDTH, HALF_HEIGHT))
         self.sky_offset = 0
-        #self.blood_screen = self.get_texture('assets/textures/blood_screen.png', RES)
-        self.digit_size = 90
-        #self.digit_images = [self.get_texture(f'assets/textures/digits/{i}.png', [self.digit_size] * 2)
-        #                     for i in range(11)]
-        #self.digits = dict(zip(map(str, range(11)), self.digit_images))
-        #self.game_over_image = self.get_texture('assets/textures/game_over.png', RES)
-        #self.win_image = self.get_texture('assets/textures/win.png', RES)
+        self.blood_screen = Helper.LoadTexture('blood_texture.png', RES)
+        # self.digit_size = 90
+        # self.digit_images = [Helper.LoadTexture(f'resources/textures/digits/{i}.png', [self.digit_size] * 2)
+        #                      for i in range(11)]
+        # self.digits = dict(zip(map(str, range(11)), self.digit_images))
+        # self.game_over_image = Helper.LoadTexture('resources/textures/game_over.png', RES)
+        # self.win_image = Helper.LoadTexture('resources/textures/win.png', RES)
 
-    def draw(self):
-        self.draw_background()
-        self.render_game_objects()
-        self.draw_player_health()
+    def draw(self, screen):
+        self.draw_background(screen)
+        self.render_game_objects(screen)
+        self.draw_player_health(screen)
 
     def win(self):
-        self.screen.blit(self.win_image, (0, 0))
+    #     self.screen.blit(self.win_image, (0, 0))
+        pass
 
     def game_over(self):
-        self.screen.blit(self.game_over_image, (0, 0))
+    #     self.screen.blit(self.game_over_image, (0, 0))
+        pass
 
-    def draw_player_health(self):
+    def draw_player_health(self, screen):
         health = str(self.game.player.health)
-        for i, char in enumerate(health):
-            self.screen.blit(self.digits[char], (i * self.digit_size, 0))
-        self.screen.blit(self.digits['10'], ((i + 1) * self.digit_size, 0))
+        # for i, char in enumerate(health):
+        #     screen.blit(self.digits[char], (i * self.digit_size, 0))
+        # screen.blit(self.digits['10'], ((i + 1) * self.digit_size, 0))
 
     def player_damage(self):
         self.screen.blit(self.blood_screen, (0, 0))
 
-    def draw_background(self):
-        self.sky_offset = (self.sky_offset + 4.5 * self.game.player.rel) % GAME_WIDTH
-        self.screen.blit(self.sky_image, (-self.sky_offset, 0))
-        self.screen.blit(self.sky_image, (-self.sky_offset + GAME_WIDTH, 0))
+    def draw_background(self, screen):
+        self.sky_offset = (self.sky_offset +
+                           4.5 * self.game.player.rel) % GAME_WIDTH
+        screen.blit(self.sky_image, (-self.sky_offset, 0))
+        screen.blit(self.sky_image, (-self.sky_offset + GAME_WIDTH, 0))
         # floor
-        pg.draw.rect(self.screen, AQUA, (0, HALF_HEIGHT, GAME_WIDTH, GAME_HEIGHT))
+        pygame.draw.rect(screen, BROWN,
+                         (0, HALF_HEIGHT, GAME_WIDTH, GAME_HEIGHT))
 
-    def render_game_objects(self):
-        list_objects = sorted(self.game.raycasting.objects_to_render, key=lambda t: t[0], reverse=True)
+    def render_game_objects(self, screen):
+        list_objects = sorted(self.game.raycasting.objects_to_render,
+                              key=lambda t: t[0],
+                              reverse=True)
         for depth, image, pos in list_objects:
-            self.screen.blit(image, pos)
-
-    @staticmethod
-    def get_texture(path, res=(TEXTURE_SIZE, TEXTURE_SIZE)):
-        texture = pg.image.load(path).convert_alpha()
-        return pg.transform.scale(texture, res)
+            screen.blit(image, pos)
 
     def load_wall_textures(self):
         return {
-            1: self.get_texture('assets/textures/wallTexture.png')
-            # 2: self.get_texture('assets/textures/2.png'),
-            # 3: self.get_texture('assets/textures/3.png'),
-            # 4: self.get_texture('assets/textures/4.png'),
-            # 5: self.get_texture('assets/textures/5.png'),
+            1: Helper.LoadTexture('wallTexture.png'),
+            # 2: self.get_texture('resources/textures/2.png'),
+            # 3: self.get_texture('resources/textures/3.png'),
+            # 4: self.get_texture('resources/textures/4.png'),
+            # 5: self.get_texture('resources/textures/5.png'),
         }

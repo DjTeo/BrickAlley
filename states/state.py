@@ -6,7 +6,6 @@ class State():
     def __init__(self, game):
         self.game = game
         self.clock = game.clock
-        self.screen = game.screen
         self.prev_state = None
 
     def update(self, delta_time, actions):

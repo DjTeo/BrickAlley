@@ -3,10 +3,12 @@ import time
 import pygame
 from constants import *
 from pygame.locals import *
+from helper import Helper
 from states.main_menu import MainMenu
 
 
 class Game():
+    sprites_dir: str
 
     def __init__(self):
         pygame.init()
@@ -16,7 +18,8 @@ class Game():
         pygame.display.set_caption("Brick Alley")
 
         # set screen resolution
-        self.screen = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT),DOUBLEBUF)
+        self.screen = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT),
+                                              DOUBLEBUF)
         self.centerX = self.screen.get_width() / 2
         self.centerY = self.screen.get_height() / 2
         self.running = True
@@ -129,11 +132,13 @@ class Game():
 
     def load_assets(self):
         # Create pointers to directories
-        self.assets_dir = os.path.join("assets")
+        # Game.assets_dir = os.path.join("assets")
         # self.font_dir = os.path.join(self.assets_dir, "font")
-        self.sprites_dir = os.path.join(self.assets_dir, "sprites")
+        # Game.sprites_dir = os.path.join(self.assets_dir, "sprites")
+        # Game.textures_dir = os.path.join(self.assets_dir, "textures")
         # self.font = pygame.font.Font(os.path.join(self.font_dir, "myFont.ttf"), 26)
         # self.big_font = pygame.font.Font(os.path.join(self.font_dir, "myFont.ttf"), 36)
+        _ = Helper()
         self.font = pygame.font.SysFont("Arial", 26)
         self.bold_font = pygame.font.SysFont("Arial", 26, True)
         self.big_font = pygame.font.SysFont("Arial", 36)
@@ -145,13 +150,6 @@ class Game():
     def reset_keys(self):
         for action in self.actions:
             self.actions[action] = False
-
-    def LoadSprite(self, spriteFile: str, size=None) -> pygame.Surface:
-        spriteFile = os.path.join(self.sprites_dir, spriteFile)
-        if not size:
-            return pygame.image.load(spriteFile)
-        return pygame.transform.smoothscale(pygame.image.load(spriteFile),
-                                            size)
 
     def PlayMusic(self, soundFile: str, volume=0.5):
         soundFile = os.path.join(self.assets_dir, soundFile)
