@@ -13,10 +13,9 @@ class Player:
         self.forward_speed = PLAYER_STARTING_SPEED
         self.angle = PLAYER_ANGLE
         self.health = PLAYER_MAX_HEALTH
-        self.rel = 0
         self.health_recovery_delay = 700
-        self.time_prev = pygame.time.get_ticks()
         self.player_hit = False
+        self.time_prev = pygame.time.get_ticks()
         self.player_pain = Helper.PrepareSound("player_pain.wav")
         self.blood_screen = Helper.LoadTexture('blood_texture.png', RES)
 
@@ -31,19 +30,18 @@ class Player:
             self.time_prev = time_now
             return True
 
-    def check_game_over(self):
-        if self.health < 1:
-            pass
-            # self.game.object_renderer.game_over()
-            # pygame.display.flip()
-            # pygame.time.delay(1500)
+    def check_win(self):
+        if self.x >= END_DISTANCE:
+            self.game.victory = True
+            # pg.time.delay(1500)
             # self.game.new_game()
 
     def get_damage(self, damage):
         self.health -= damage
         self.player_hit = True
         self.player_pain.play()
-        self.check_game_over()
+        if self.health < 1:
+            self.game.game_over = True
 
     def single_fire_event(self, event):
         pass
@@ -70,8 +68,8 @@ class Player:
 
     def update(self, delta_time):
         self.movement(delta_time)
-        # self.mouse_control()
-        self.recover_health()
+        # self.recover_health()
+        self.check_win()
 
     def draw(self, screen):
         if self.player_hit:
