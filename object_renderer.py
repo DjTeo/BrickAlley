@@ -34,6 +34,13 @@ class ObjectRenderer:
 
     def draw_player_health(self, screen):
         health = str(self.game.player.health)
+        Helper.draw_text(screen,
+                         F'Health: {health}',
+                         MAROON,
+                         0,
+                         20,
+                         centerX=True,
+                         big=True)
         # for i, char in enumerate(health):
         #     screen.blit(self.digits[char], (i * self.digit_size, 0))
         # screen.blit(self.digits['10'], ((i + 1) * self.digit_size, 0))

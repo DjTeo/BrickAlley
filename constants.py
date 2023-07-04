@@ -17,6 +17,8 @@ PLAYER_SIDEWAYS_SPEED = 2
 PLAYER_ROT_SPEED = 1
 PLAYER_SIZE_SCALE = 0.1
 PLAYER_MAX_HEALTH = 100
+PLAYER_LEFT_END = 1.15
+PLAYER_RIGHT_END = 2.85
 END_SCALE = 10
 
 FOV = math.pi / 3
@@ -71,13 +73,5 @@ class PIVOT(Enum):
 # define actions
 class ACT(Enum):
     pause = 0
-    left1 = 1
-    right1 = 2
-    up1 = 3
-    down1 = 4
-    jump1 = 5
-    left2 = 6
-    right2 = 7
-    up2 = 8
-    down2 = 9
-    jump2 = 10
+    left = 1
+    right = 2

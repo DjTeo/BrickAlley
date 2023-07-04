@@ -13,12 +13,12 @@ class MainMenu(State):
         self.bricks = Helper.LoadSprite("brick-wall.jpg",
                                       (GAME_WIDTH, GAME_HEIGHT))
         self.brick = Helper.LoadSprite("a-brick.png", (125, 100))
-        self.start_sp_SURF, self.start_sp_RECT = self.game.makeText(
+        self.start_sp_SURF, self.start_sp_RECT = Helper.makeText(
             " Start Game ", LIME)
-        self.quit_SURF, self.quit_RECT = self.game.makeText(
+        self.quit_SURF, self.quit_RECT = Helper.makeText(
             " Exit Game ", BLACK)
-        self.game.CenterRect(self.start_sp_RECT, 200)
-        self.game.CenterRect(self.quit_RECT, 400)
+        Helper.CenterRect(self.start_sp_RECT, 200)
+        Helper.CenterRect(self.quit_RECT, 400)
         
     def update(self, delta_time, actions):
         self.game.reset_keys()
@@ -27,7 +27,7 @@ class MainMenu(State):
         display.fill(SKY_BLUE)
         display.blit(self.bricks, Rect(0, GAME_HEIGHT - 350, GAME_WIDTH, GAME_HEIGHT))
         # display.fill(BROWN, Rect(0, GAME_HEIGHT - 150, GAME_WIDTH, 150))
-        self.game.draw_text(display, "Hello Brick, I am Alley!", ORANGE, 0, 50,
+        Helper.draw_text(display, "Hello Brick, I am Alley!", ORANGE, 0, 50,
                             True, True)
         self.draw_button_background(display, button_light, button_dark,
                                     self.start_sp_RECT)

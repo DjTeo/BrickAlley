@@ -6,8 +6,8 @@ from pygame.locals import *
 from helper import Helper
 from states.main_menu import MainMenu
 
-
 class Game():
+
     def __init__(self):
         pygame.init()
 
@@ -23,16 +23,8 @@ class Game():
         self.running = True
         self.actions = {
             ACT.pause: False,
-            ACT.left1: False,
-            ACT.right1: False,
-            ACT.up1: False,
-            ACT.down1: False,
-            ACT.jump1: False,
-            ACT.left2: False,
-            ACT.right2: False,
-            ACT.up2: False,
-            ACT.down2: False,
-            ACT.jump2: False,
+            ACT.left: False,
+            ACT.right: False,
         }
         self.dt, self.prev_time = 0, 0
         self.state_stack = []
@@ -84,59 +76,9 @@ class Game():
         self.dt = now - self.prev_time
         self.prev_time = now
 
-    def draw_text(self,
-                  surface,
-                  text,
-                  color,
-                  x,
-                  y,
-                  big=False,
-                  centerX=False,
-                  pivot: PIVOT = PIVOT.center,
-                  bold=False):
-        if big:
-            text_surface = self.big_font.render(text, True, color)
-        elif bold:
-            text_surface = self.bold_font.render(text, True, color)
-        else:
-            text_surface = self.font.render(text, True, color)
-
-        text_rect = text_surface.get_rect()
-        match pivot:
-            case PIVOT.topLeft:
-                text_rect.topleft = (x, y)
-            case PIVOT.topRight:
-                text_rect.topright = (x, y)
-            case PIVOT.bottomLeft:
-                text_rect.bottomleft = (x, y)
-            case PIVOT.bottomRight:
-                text_rect.bottomright = (x, y)
-            case _:  # PIVOT.center:
-                text_rect.center = (x, y)
-
-        if centerX:
-            self.CenterRect(text_rect, -1)
-        surface.blit(text_surface, text_rect)
-
-    def CenterRect(self, rect: pygame.Rect, y: float):
-        rect.centerx = GAME_WIDTH / 2.0
-        if y >= 0:
-            rect.y = y
-
-    def makeText(self, text: str, color):
-        # create the Surface and the rectangle for some text.
-        surface = self.font.render(text, True, color)
-        return surface, surface.get_rect()
-
     def load_assets(self):
         # Create pointers to directories
-        # self.font_dir = os.path.join(self.assets_dir, "font")
-        # self.font = pygame.font.Font(os.path.join(self.font_dir, "myFont.ttf"), 26)
-        # self.big_font = pygame.font.Font(os.path.join(self.font_dir, "myFont.ttf"), 36)
         _ = Helper()
-        self.font = pygame.font.SysFont("Arial", 26)
-        self.bold_font = pygame.font.SysFont("Arial", 26, True)
-        self.big_font = pygame.font.SysFont("Arial", 36)
 
     def load_states(self):
         self.title_screen = MainMenu(self)
