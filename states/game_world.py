@@ -1,4 +1,3 @@
-from map import Map
 from states.state import State
 from constants import *
 from player import *
@@ -17,10 +16,11 @@ class GameWorld(State):
         self.itemsCount = 10
         self.playerNum = 1
         self.current_distance: float = 0
-        self.map = Map(self)
         self.player = Player(self)
+        
         self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self)
+        
         self.object_handler = ObjectHandler(self)
 
     def update(self, delta_time, actions):
@@ -30,10 +30,8 @@ class GameWorld(State):
         pygame.display.set_caption(f'{self.clock.get_fps() :.1f}')
 
     def render(self, display):
-        display.fill('black')
+        #display.fill('black')
         self.object_renderer.draw(display)
-        self.map.draw(display)
-        self.player.draw(display)
 
     def handle_event(self, event: pygame.event.Event):
         if (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
