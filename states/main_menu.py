@@ -1,3 +1,4 @@
+from helper import Helper
 from states.game_world import GameWorld
 from states.state import State
 from constants import *
@@ -9,9 +10,9 @@ class MainMenu(State):
 
     def __init__(self, game):
         State.__init__(self, game)
-        self.bricks = game.LoadSprite("brick-wall.jpg",
+        self.bricks = Helper.LoadSprite("brick-wall.jpg",
                                       (GAME_WIDTH, GAME_HEIGHT))
-        self.brick = game.LoadSprite("a-brick.png", (125, 100))
+        self.brick = Helper.LoadSprite("a-brick.png", (125, 100))
         self.start_sp_SURF, self.start_sp_RECT = self.game.makeText(
             " Start Game ", LIME)
         self.quit_SURF, self.quit_RECT = self.game.makeText(
