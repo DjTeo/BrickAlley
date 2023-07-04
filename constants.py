@@ -5,8 +5,18 @@ import math
 FPS = 60
 GAME_WIDTH = 1600
 GAME_HEIGHT = 900
+RES = (GAME_WIDTH, GAME_HEIGHT)
 HALF_WIDTH = GAME_WIDTH // 2
 HALF_HEIGHT = GAME_HEIGHT // 2
+
+# player properties
+PLAYER_POS = 1.5, 2  # mini_map
+PLAYER_ANGLE = 0
+PLAYER_SPEED = 1
+PLAYER_ROT_SPEED = 1
+PLAYER_SIZE_SCALE = 0.1
+PLAYER_MAX_HEALTH = 100
+
 FOV = math.pi / 3
 HALF_FOV = FOV / 2
 NUM_RAYS = GAME_WIDTH // 2
@@ -19,14 +29,6 @@ SCALE = GAME_WIDTH // NUM_RAYS
 
 TEXTURE_SIZE = 256
 HALF_TEXTURE_SIZE = TEXTURE_SIZE // 2
-
-# player properties
-PLAYER_POS = 1.5, 5  # mini_map
-PLAYER_ANGLE = 0
-PLAYER_SPEED = 0.004
-PLAYER_ROT_SPEED = 0.002
-PLAYER_SIZE_SCALE = 60
-PLAYER_MAX_HEALTH = 100
 
 # define colors
 BLACK = (0, 0, 0)
@@ -55,12 +57,14 @@ button_light = (172, 172, 172)
 # dark shade of the button
 button_dark = (100, 100, 100)
 
+
 class PIVOT(Enum):
     center = 0,
     topLeft = 1,
     topRight = 2,
     bottomLeft = 3,
     bottomRight = 4
+
 
 # define actions
 class ACT(Enum):

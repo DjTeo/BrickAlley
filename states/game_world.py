@@ -1,3 +1,4 @@
+from map import Map
 from states.state import State
 from constants import *
 from player import *
@@ -16,32 +17,25 @@ class GameWorld(State):
         self.itemsCount = 10
         self.playerNum = 1
         self.current_distance: float = 0
-        self.player: Player(self)
+        self.map = Map(self)
+        self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self)
         self.object_handler = ObjectHandler(self)
 
     def update(self, delta_time, actions):
-        self.player.update()
+        self.player.update(delta_time)
         self.raycasting.update()
         self.object_handler.update()
-        self.weapon.update()
-        pg.display.flip()
-        self.delta_time = self.clock.tick(FPS)
-        pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
+        pygame.display.set_caption(f'{self.clock.get_fps() :.1f}')
 
     def render(self, display):
-        # self.screen.fill('black')
-        self.object_renderer.draw()
-        self.weapon.draw()
-        # self.map.draw()
-        # self.player.draw()
+        display.fill('black')
+        self.object_renderer.draw(display)
+        self.map.draw(display)
+        self.player.draw(display)
 
-    def handle_event(self, event):
-        self.global_trigger = False
-        for event in pg.event.get():
-            if (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
-                self.exit_state()
-            elif event.type == self.global_event:
-                self.global_trigger = True
-            self.player.single_fire_event(event)
+    def handle_event(self, event: pygame.event.Event):
+        if (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            self.exit_state()
+        self.player.single_fire_event(event)
