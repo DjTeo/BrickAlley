@@ -58,7 +58,10 @@ class RayCasting:
                 tile_hor = int(x_hor), int(y_hor)
                 # if tile_hor in self.game.map.world_map:
                 if tile_hor[1] == 0 or tile_hor[1] == 3:
-                    if tile_hor[0] % 10 == 0:
+                    if tile_hor[0] % 23 == 0 and tile_hor[1] == 3:
+                        texture_hor = 2
+                        break
+                    if tile_hor[0] % 17 == 0 and tile_hor[1] == 0:
                         texture_hor = 2
                         break
                     texture_hor = 1  #self.game.map.world_map[tile_hor]
@@ -80,12 +83,12 @@ class RayCasting:
             for i in range(MAX_DEPTH):
                 tile_vert = int(x_vert), int(y_vert)
                 #RENDER THE EXIT DOOR AT MAX DEPTH
-                if i==MAX_DEPTH-1:
+                if i == (MAX_DEPTH - 1 - int(x_map / END_SCALE)):
                     if tile_vert[1] == 1:
-                        texture_vert = 0
+                        texture_vert = 3
                         break
                     if tile_vert[1] == 2:
-                        texture_vert = 0
+                        texture_vert = 4
                         break
                 x_vert += dx
                 y_vert += dy
