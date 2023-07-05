@@ -19,6 +19,19 @@ class Player:
         self.player_pain = Helper.PrepareSound("player_pain.wav")
         self.blood_screen = Helper.LoadTexture('blood_texture.png', RES)
 
+        self.left_hand = Helper.LoadSprite('leftHand.png',
+                                           (GAME_WIDTH / 4, GAME_HEIGHT / 2))
+        self.right_hand = Helper.LoadSprite('rightHand.png',
+                                            (GAME_WIDTH / 4, GAME_HEIGHT / 2))
+
+        self.left_hand_up = Helper.LoadSprite(
+            'leftHandUp.png', (GAME_WIDTH * 0.4, GAME_HEIGHT * 0.8))
+        self.right_hand_up = Helper.LoadSprite(
+            'rightHandUp.png', (GAME_WIDTH * 0.4, GAME_HEIGHT * 0.8))
+        self.timer = 0
+        self.animation_stages = 4
+        self.animation_frequency = 180  #this should be related to player speed forward WIP
+
     def recover_health(self):
         if self.check_health_recovery_delay(
         ) and self.health < PLAYER_MAX_HEALTH:
@@ -72,6 +85,26 @@ class Player:
         self.check_win()
 
     def draw(self, screen):
+        self.timer = ((pygame.time.get_ticks() - self.time_prev) //
+                      self.animation_frequency) % self.animation_stages
+
+        if self.timer == 0:
+            screen.blit(self.right_hand,
+                        (GAME_WIDTH - GAME_WIDTH / 2, GAME_HEIGHT * 0.65))
+            screen.blit(self.left_hand, (GAME_WIDTH / 4, GAME_HEIGHT * 0.65))
+
+        elif self.timer == 1:
+            screen.blit(self.left_hand_up,
+                        (GAME_WIDTH * 0.15, GAME_HEIGHT / 2))
+
+        elif self.timer == 2:
+            screen.blit(self.right_hand,
+                        (GAME_WIDTH - GAME_WIDTH / 2, GAME_HEIGHT * 0.65))
+            screen.blit(self.left_hand, (GAME_WIDTH / 4, GAME_HEIGHT * 0.65))
+        elif self.timer == 3:
+            screen.blit(self.right_hand_up,
+                        (GAME_WIDTH * 0.5, GAME_HEIGHT / 2))
+
         if self.player_hit:
             screen.blit(self.blood_screen, (0, 0))
             self.player_hit = False
