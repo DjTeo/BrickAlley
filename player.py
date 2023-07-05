@@ -1,7 +1,5 @@
 from constants import *
 import pygame
-import math
-
 from helper import Helper
 
 
@@ -32,13 +30,12 @@ class Player:
         self.animation_stages = 4
         self.animation_frequency = 180  #this should be related to player speed forward WIP
 
-    def recover_health(self):
+    def recover_health(self, time_now):
         if self.check_health_recovery_delay(
-        ) and self.health < PLAYER_MAX_HEALTH:
+                time_now) and self.health < PLAYER_MAX_HEALTH:
             self.health += 1
 
-    def check_health_recovery_delay(self):
-        time_now = pygame.time.get_ticks()
+    def check_health_recovery_delay(self, time_now):
         if time_now - self.time_prev > self.health_recovery_delay:
             self.time_prev = time_now
             return True
@@ -56,15 +53,11 @@ class Player:
         if self.health < 1:
             self.game.game_over = True
 
-    def single_fire_event(self, event):
-        pass
-
     def movement(self, delta_time):
         dx, dy = self.forward_speed * delta_time, 0
         speed = PLAYER_SIDEWAYS_SPEED * delta_time
 
         keys = pygame.key.get_pressed()
-
         if keys[pygame.K_a]:
             dy -= speed
         if keys[pygame.K_d]:
@@ -80,14 +73,14 @@ class Player:
             self.y += dy
 
     def update(self, delta_time):
+        time_now = pygame.time.get_ticks()
+        self.timer = ((time_now - self.time_prev) //
+                      self.animation_frequency) % self.animation_stages
         self.movement(delta_time)
-        # self.recover_health()
+        # self.recover_health(time_now)
         self.check_win()
 
     def draw(self, screen):
-        self.timer = ((pygame.time.get_ticks() - self.time_prev) //
-                      self.animation_frequency) % self.animation_stages
-
         if self.timer == 0:
             screen.blit(self.right_hand,
                         (GAME_WIDTH - GAME_WIDTH / 2, GAME_HEIGHT * 0.65))
