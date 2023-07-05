@@ -12,20 +12,6 @@ class ObjectRenderer:
                                             (GAME_WIDTH, HALF_HEIGHT))
         self.sky_offset = 0
 
-        self.economy_timer = 0
-        self.left_hand = Helper.LoadSprite('leftHand.png',
-                                           (GAME_WIDTH / 4, GAME_HEIGHT / 2))
-        self.right_hand = Helper.LoadSprite('rightHand.png',
-                                            (GAME_WIDTH / 4, GAME_HEIGHT / 2))
-
-        self.left_hand_up = Helper.LoadSprite(
-            'leftHandUp.png', (GAME_WIDTH * 0.4, GAME_HEIGHT * 0.8))
-        self.right_hand_up = Helper.LoadSprite(
-            'rightHandUp.png', (GAME_WIDTH * 0.4, GAME_HEIGHT * 0.8))
-        self.time_pre = pygame.time.get_ticks()
-        self.animation_stages = 4
-        self.animation_frequency = 180  #this should be related to player speed forward WIP
-        
         # self.digit_size = 90
         # self.digit_images = [Helper.LoadTexture(f'resources/textures/digits/{i}.png', [self.digit_size] * 2)
         #                      for i in range(11)]
@@ -37,7 +23,6 @@ class ObjectRenderer:
         self.draw_background(screen)
         self.render_game_objects(screen)
         self.draw_player_health(screen)
-        self.draw_hands(screen)
         self.drawWinLose(screen)
 
     def drawWinLose(self, screen):
@@ -66,32 +51,6 @@ class ObjectRenderer:
         # floor
         pygame.draw.rect(screen, BROWN,
                          (0, HALF_HEIGHT, GAME_WIDTH, GAME_HEIGHT))
-
-    def draw_hands(self, screen):
-
-        self.timer = pygame.time.get_ticks()
-        if (
-            (self.timer - self.time_pre) // self.animation_frequency
-        ) % self.animation_stages == 0:  #and self.timer-self.time_pre<2*self.animation_stages:
-            screen.blit(self.right_hand,
-                        (GAME_WIDTH - GAME_WIDTH / 2, GAME_HEIGHT * 0.65))
-            screen.blit(self.left_hand, (GAME_WIDTH / 4, GAME_HEIGHT * 0.65))
-
-        elif ((self.timer - self.time_pre) //
-              self.animation_frequency) % self.animation_stages == 1:
-            screen.blit(self.left_hand_up,
-                        (GAME_WIDTH * 0.15, GAME_HEIGHT / 2))
-
-        elif ((self.timer - self.time_pre) //
-              self.animation_frequency) % self.animation_stages == 2:
-            screen.blit(self.right_hand,
-                        (GAME_WIDTH - GAME_WIDTH / 2, GAME_HEIGHT * 0.65))
-            screen.blit(self.left_hand, (GAME_WIDTH / 4, GAME_HEIGHT * 0.65))
-        elif ((self.timer - self.time_pre) //
-              self.animation_frequency) % self.animation_stages == 3:
-            screen.blit(self.right_hand_up,
-                        (GAME_WIDTH * 0.5, GAME_HEIGHT / 2))
-
     def render_game_objects(self, screen):
         list_objects = sorted(self.game.raycasting.objects_to_render,
                               key=lambda t: t[0],
