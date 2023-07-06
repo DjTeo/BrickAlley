@@ -5,6 +5,7 @@ import random
 
 
 class ObjectHandler:
+
     def __init__(self, game):
         self.game = game
         self.sprite_list = []
@@ -13,7 +14,8 @@ class ObjectHandler:
         self.static_sprite_path = 'assets/sprites/static_sprites/'
         self.anim_sprite_path = 'assets/sprites/animated_sprites/'
         add_sprite = self.add_sprite
-        
+        self.sprite_selector=0
+        self.obstacle_type=[]
         # add_npc = self.add_npc
         self.npc_positions = {}
 
@@ -60,14 +62,21 @@ class ObjectHandler:
         # add_npc(CyberDemonNPC(game, pos=(14.5, 25.5)))
     def spawn_npc(self):
         for i in range(self.enemies):
-                npc = choices(self.npc_types, self.weights)[0]
-                pos = x, y = randrange(self.game.map.cols), randrange(self.game.map.rows)
-                while (pos in self.game.map.world_map) or (pos in self.restricted_area):
-                    pos = x, y = randrange(self.game.map.cols), randrange(self.game.map.rows)
-                self.add_npc(npc(self.game, pos=(x + 0.5, y + 0.5)))
+            npc = choices(self.npc_types, self.weights)[0]
+            pos = x, y = randrange(self.game.map.cols), randrange(
+                self.game.map.rows)
+            while (pos
+                   in self.game.map.world_map) or (pos
+                                                   in self.restricted_area):
+                pos = x, y = randrange(self.game.map.cols), randrange(
+                    self.game.map.rows)
+            self.add_npc(npc(self.game, pos=(x + 0.5, y + 0.5)))
 
     def update(self):
-        self.npc_positions = {npc.map_pos for npc in self.npc_list if npc.alive}
+        self.npc_positions = {
+            npc.map_pos
+            for npc in self.npc_list if npc.alive
+        }
         [sprite.update() for sprite in self.sprite_list]
         [npc.update() for npc in self.npc_list]
         # self.check_win()
@@ -76,18 +85,29 @@ class ObjectHandler:
         self.npc_list.append(npc)
 
     def add_sprite(self, sprite):
+        #πηγα να  κανω tuple list το sprite list αλλα μου φφωναζει για το update οποτε εφτιαξα μια παραλληλη λιστα 
         self.sprite_list.append(sprite)
-        self.enemies+=1
-    
+        self.obstacle_type.append(self.sprite_selector)
+        self.enemies += 1
+
     def remove_sprite(self):
         del self.sprite_list[0]
-        self.enemies-=1
-        
+        del self.obstacle_type[0]
+        self.enemies -= 1
 
     def closest_enemy(self):
-        return self.sprite_list[0].x,self.sprite_list[0].y
-    
-    def spawn_obstacle(self): 
-        y=1.1+1.7*random.random()
-        x=self.game.player.x+10+y
-        self.add_sprite(AnimatedSprite((self.game), pos=(x,y)))
+        return self.sprite_list[0].x, self.sprite_list[0].y
+
+    def spawn_obstacle(self):
+        y = 1.1 + 1.7 * random.random()
+        x = self.game.player.x + 20 + y
+        self.sprite_selector=random.randrange(0,2)
+        
+        if self.sprite_selector==0:
+            self.add_sprite(AnimatedSprite((self.game), pos=(x, y)))
+        elif self.sprite_selector==1:
+            self.add_sprite(AnimatedSprite(self.game, path=self.anim_sprite_path + 'ballSprite/1.png', pos=(x,y),scale=0.4,shift=1.25))
+        
+
+        
+        
