@@ -12,7 +12,6 @@ class ObjectHandler:
         self.anim_sprite_path = Helper.animated_sprites_dir
         self.sprite_selector = 0
         self.obstacle_type = []
-        self.enemies = 0
         self.types = [0, 1, 2, 3]  # running enenmy, ball, heart,
         self.weights = OBSTACLES_WEIGHTS
         self.restricted_area = {(i, j) for i in range(10) for j in range(10)}
@@ -21,15 +20,13 @@ class ObjectHandler:
         [sprite.update() for sprite in self.sprite_list]
 
     def add_sprite(self, sprite):
-        #πηγα να  κανω tuple list το sprite list αλλα μου φφωναζει για το update οποτε εφτιαξα μια παραλληλη λιστα
+        #πηγα να κανω tuple list το sprite list αλλα μου φφωναζει για το update οποτε εφτιαξα μια παραλληλη λιστα
         self.sprite_list.append(sprite)
         self.obstacle_type.append(self.sprite_selector)
-        self.enemies += 1
 
     def remove_sprite(self):
         del self.sprite_list[0]
         del self.obstacle_type[0]
-        self.enemies -= 1
 
     def closest_enemy(self):
         return self.sprite_list[0].x, self.sprite_list[0].y
