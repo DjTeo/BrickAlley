@@ -1,6 +1,6 @@
 from constants import *
 import pygame
-import math
+
 from helper import Helper
 
 from object_handler import *

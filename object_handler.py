@@ -91,7 +91,3 @@ class ObjectHandler:
         y=1.1+1.7*random.random()
         x=self.game.player.x+10+y
         self.add_sprite(AnimatedSprite((self.game), pos=(x,y)))
-        
-        
-    
-   
