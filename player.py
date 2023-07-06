@@ -10,13 +10,14 @@ class Player:
 
     def __init__(self, game):
         self.game = game
+        self.score=0
         self.x, self.y = PLAYER_POS
         self.forward_speed = PLAYER_STARTING_SPEED
         self.angle = PLAYER_ANGLE
         self.health = PLAYER_MAX_HEALTH
         self.health_recovery_delay = 700
         self.player_hit = False
-
+        self.coins_collected=0
         self.time_prev = pygame.time.get_ticks()
         self.respawn_timer = 2000
         self.player_pain = Helper.PrepareSound("player_pain.wav")
@@ -35,35 +36,39 @@ class Player:
         self.animation_stages = 4
         self.animation_frequency = 180  #this should be related to player speed forward WIP
 
-    def recover_health(self, time_now):
-        if self.check_health_recovery_delay(
-                time_now) and self.health < PLAYER_MAX_HEALTH:
-            self.health += 1
+    # def recover_health(self, time_now):
+    #     if self.check_health_recovery_delay(
+    #             time_now) and self.health < PLAYER_MAX_HEALTH:
+    #         self.health += 1
 
-    def check_health_recovery_delay(self, time_now):
-        if time_now - self.time_prev > self.health_recovery_delay:
-            self.time_prev = time_now
-            return True
+    # def check_health_recovery_delay(self, time_now):
+    #     if time_now - self.time_prev > self.health_recovery_delay:
+    #         self.time_prev = time_now
+    #         return True
 
     def check_win(self):
         if self.x >= END_DISTANCE:
             self.game.victory = True
             # pg.time.delay(1500)
             # self.game.new_game()
-
+    #PLAYER STATS
     def get_damage(self, damage):
         self.health -= damage
         self.player_hit = True
         self.player_pain.play()
         if self.health < 1:
             self.game.game_over = True
-    def recover_health(self,amount):
-        if self.health<100:
-            if self.health+amount>100:
-                self.health=100
+
+    def recover_health(self, amount):
+        if self.health < 100:
+            if self.health + amount > 100:
+                self.health = 100
             else:
-                self.health+=amount
-    
+                self.health += amount
+                
+    def  add_score(self):
+        self.score=int(self.x)+self.coins_collected*2
+        
     def movement(self, delta_time):
         dx, dy = self.forward_speed * delta_time, 0
         speed = PLAYER_SIDEWAYS_SPEED * delta_time
@@ -75,7 +80,7 @@ class Player:
             dy += speed
 
         self.check_movement(dx, dy, delta_time)
-
+    #BORDERS AND COLLISIONS
     def check_movement(self, dx, dy, delta_time):
         scale = PLAYER_SIZE_SCALE / delta_time
         # TODO: Check for obstacle collision
@@ -91,32 +96,35 @@ class Player:
             will_be_hit = True
             if will_be_hit and self.game.object_handler.closest_enemy(
             )[0] <= self.x + 0.3:
-                if self.game.object_handler.obstacle_type[0]==0:
+                if self.game.object_handler.obstacle_type[0] == 0:
                     self.get_damage(3)
-                elif self.game.object_handler.obstacle_type[0]==1:
+                elif self.game.object_handler.obstacle_type[0] == 1:
                     self.get_damage(15)
-                elif self.game.object_handler.obstacle_type[0]==2:
+                elif self.game.object_handler.obstacle_type[0] == 2:
                     self.recover_health(5)
+                elif self.game.object_handler.obstacle_type[0] == 3:
+                    self.coins_collected+=1
                 self.game.object_handler.remove_sprite()
                 will_be_hit = False
         elif self.game.object_handler.closest_enemy()[0] <= self.x + 0.3:
             self.game.object_handler.remove_sprite()
-            
+
         else:
             will_be_hit = False
 
     def update(self, delta_time):
-        time_now = pygame.time.get_ticks()
+        #time_now = pygame.time.get_ticks()
         self.movement(delta_time)
         # self.recover_health(time_now)
         self.check_win()
-
+        self.add_score()
         if self.game.object_handler.sprite_list:
             self.check_collision()
 
         if self.game.object_handler.enemies < 5 and self.timer - self.time_prev > self.respawn_timer:
             self.game.object_handler.spawn_obstacle()
             self.time_prev = self.timer
+
     def draw(self, screen):
         self.timer = pygame.time.get_ticks()
 
