@@ -16,7 +16,7 @@ class Player:
         self.coins_collected = 0
         self.time_prev = pygame.time.get_ticks()
         self.respawn_timer = OBSTACLES_RESPAWN
-        self.player_pain = Helper.PrepareSound("player_pain.wav", 0.8)
+        self.player_pain = Helper.PrepareSound("player_pain.wav", 0.75)
         self.collect_sound = Helper.PrepareSound("collect.wav")
         self.blood_screen = Helper.LoadTexture('blood_texture.png', RES)
 
@@ -108,7 +108,7 @@ class Player:
         if self.game.object_handler.sprite_list:
             self.check_collision()
 
-        if self.timer - self.time_prev > self.respawn_timer:  # and self.game.object_handler.enemies < 5
+        if self.timer - self.time_prev > self.respawn_timer:  # and self.game.object_handler.enemies < 5: removed, no point if spawning one at a time
             self.game.object_handler.spawn_obstacle()
             self.time_prev = self.timer
 
