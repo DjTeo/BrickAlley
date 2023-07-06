@@ -22,7 +22,7 @@ class GameWorld(State):
         self.raycasting = RayCasting(self)
         self.object_handler = ObjectHandler(self)
 
-    def update(self, delta_time, actions):
+    def update(self, delta_time):
         pygame.display.set_caption(
             f'Brick Alley - {self.clock.get_fps() :.1f}FPS')
         if not self.game_over and not self.victory:
@@ -31,11 +31,10 @@ class GameWorld(State):
             self.object_handler.update()
 
     def render(self, display):
-        #display.fill('black')
         self.object_renderer.draw(display)
         self.player.draw(display)
+        self.object_renderer.drawUI(display, self.player.total_score())
 
     def handle_event(self, event: pygame.event.Event):
         if (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             self.exit_state()
-        self.player.single_fire_event(event)
