@@ -57,7 +57,13 @@ class Player:
         self.player_pain.play()
         if self.health < 1:
             self.game.game_over = True
-
+    def recover_health(self,amount):
+        if self.health<100:
+            if self.health+amount>100:
+                self.health=100
+            else:
+                self.health+=amount
+    
     def movement(self, delta_time):
         dx, dy = self.forward_speed * delta_time, 0
         speed = PLAYER_SIDEWAYS_SPEED * delta_time
@@ -86,9 +92,11 @@ class Player:
             if will_be_hit and self.game.object_handler.closest_enemy(
             )[0] <= self.x + 0.3:
                 if self.game.object_handler.obstacle_type[0]==0:
-                    self.get_damage(10)
+                    self.get_damage(3)
                 elif self.game.object_handler.obstacle_type[0]==1:
                     self.get_damage(15)
+                elif self.game.object_handler.obstacle_type[0]==2:
+                    self.recover_health(5)
                 self.game.object_handler.remove_sprite()
                 will_be_hit = False
         elif self.game.object_handler.closest_enemy()[0] <= self.x + 0.3:

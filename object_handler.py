@@ -14,8 +14,10 @@ class ObjectHandler:
         self.static_sprite_path = 'assets/sprites/static_sprites/'
         self.anim_sprite_path = 'assets/sprites/animated_sprites/'
         add_sprite = self.add_sprite
+        
         self.sprite_selector=0
         self.obstacle_type=[]
+        
         # add_npc = self.add_npc
         self.npc_positions = {}
 
@@ -30,26 +32,10 @@ class ObjectHandler:
         #coords are normalized into squares. if x>3 or x<1 then they go outside the map
         #add_sprite(AnimatedSprite(game))
         #add_sprite(AnimatedSprite(game, pos=(1.5, 1.5)))
-        # add_sprite(AnimatedSprite(game, pos=(1.5, 7.5)))
-        # add_sprite(AnimatedSprite(game, pos=(5.5, 3.25)))
-        # add_sprite(AnimatedSprite(game, pos=(5.5, 4.75)))
-        # add_sprite(AnimatedSprite(game, pos=(7.5, 2.5)))
-        # add_sprite(AnimatedSprite(game, pos=(7.5, 5.5)))
-        # add_sprite(AnimatedSprite(game, pos=(14.5, 1.5)))
-        # add_sprite(AnimatedSprite(game, pos=(14.5, 4.5)))
+        
         #add_sprite(AnimatedSprite(game, path=self.anim_sprite_path + 'ballSprite/1.png', pos=(14.5, 1.5)))
         # add_sprite(AnimatedSprite(game, path=self.anim_sprite_path + 'red_light/0.png', pos=(14.5, 7.5)))
         # add_sprite(AnimatedSprite(game, path=self.anim_sprite_path + 'red_light/0.png', pos=(12.5, 7.5)))
-        # add_sprite(AnimatedSprite(game, path=self.anim_sprite_path + 'red_light/0.png', pos=(9.5, 7.5)))
-        # add_sprite(AnimatedSprite(game, path=self.anim_sprite_path + 'red_light/0.png', pos=(14.5, 12.5)))
-        # add_sprite(AnimatedSprite(game, path=self.anim_sprite_path + 'red_light/0.png', pos=(9.5, 20.5)))
-        # add_sprite(AnimatedSprite(game, path=self.anim_sprite_path + 'red_light/0.png', pos=(10.5, 20.5)))
-        # add_sprite(AnimatedSprite(game, path=self.anim_sprite_path + 'red_light/0.png', pos=(3.5, 14.5)))
-        # add_sprite(AnimatedSprite(game, path=self.anim_sprite_path + 'red_light/0.png', pos=(3.5, 18.5)))
-        # add_sprite(AnimatedSprite(game, pos=(14.5, 24.5)))
-        # add_sprite(AnimatedSprite(game, pos=(14.5, 30.5)))
-        # add_sprite(AnimatedSprite(game, pos=(1.5, 30.5)))
-        # add_sprite(AnimatedSprite(game, pos=(1.5, 24.5)))
 
         # npc map
         #add_npc(SoldierNPC(game, pos=(11.0, 19.0)))
@@ -80,7 +66,7 @@ class ObjectHandler:
         [sprite.update() for sprite in self.sprite_list]
         [npc.update() for npc in self.npc_list]
         # self.check_win()
-        #print(self.enemies)
+        
     def add_npc(self, npc):
         self.npc_list.append(npc)
 
@@ -101,12 +87,13 @@ class ObjectHandler:
     def spawn_obstacle(self):
         y = 1.1 + 1.7 * random.random()
         x = self.game.player.x + 20 + y
-        self.sprite_selector=random.randrange(0,2)
-        
+        self.sprite_selector=random.randrange(0,3)
         if self.sprite_selector==0:
             self.add_sprite(AnimatedSprite((self.game), pos=(x, y)))
         elif self.sprite_selector==1:
             self.add_sprite(AnimatedSprite(self.game, path=self.anim_sprite_path + 'ballSprite/1.png', pos=(x,y),scale=0.4,shift=1.25))
+        elif self.sprite_selector==2:
+            self.add_sprite(AnimatedSprite(self.game, path=self.anim_sprite_path + 'heartSprite/1.png', pos=(x,y),scale=1.2,shift=0.35))
         
 
         
