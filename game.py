@@ -21,11 +21,6 @@ class Game():
         self.centerX = self.screen.get_width() / 2
         self.centerY = self.screen.get_height() / 2
         self.running = True
-        self.actions = {
-            ACT.pause: False,
-            ACT.left: False,
-            ACT.right: False,
-        }
         self.dt, self.prev_time = 0, 0
         self.state_stack = []
         self.load_assets()
@@ -52,7 +47,7 @@ class Game():
 
     def update(self):
         try:
-            self.state_stack[-1].update(self.dt, self.actions)
+            self.state_stack[-1].update(self.dt)
         except Exception as e:
             print(f"Error in update: {e.args}")
             self.restart()
@@ -83,11 +78,6 @@ class Game():
     def load_states(self):
         self.title_screen = MainMenu(self)
         self.state_stack.append(self.title_screen)
-
-    def reset_keys(self):
-        for action in self.actions:
-            self.actions[action] = False
-
 
 if __name__ == "__main__":
     g = Game()

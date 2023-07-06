@@ -9,6 +9,8 @@ class Helper:
         # Create pointers to directories
         Helper.assets_dir = os.path.join("assets")
         Helper.sprites_dir = os.path.join(self.assets_dir, "sprites")
+        Helper.animated_sprites_dir = os.path.join(self.sprites_dir,
+                                                   "animated_sprites")
         Helper.sounds_dir = os.path.join(self.assets_dir, "sounds")
         Helper.textures_dir = os.path.join(self.assets_dir, "textures")
         Helper.font = pygame.font.SysFont("Arial", 26)

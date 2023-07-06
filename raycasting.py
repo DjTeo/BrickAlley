@@ -39,7 +39,7 @@ class RayCasting:
         texture_vert, texture_hor = 1, 1
         ox, oy = self.game.player.pos
         x_map, y_map = self.game.player.map_pos
-        end = (ox / END_DISTANCE) * MAX_DEPTH
+        remain_dist = (END_DISTANCE - ox)
 
         ray_angle = self.game.player.angle - HALF_FOV + 0.0001
         for ray in range(NUM_RAYS):
@@ -84,7 +84,7 @@ class RayCasting:
             for i in range(MAX_DEPTH):
                 tile_vert = int(x_vert), int(y_vert)
                 #RENDER THE EXIT DOOR AT MAX DEPTH
-                if i == (MAX_DEPTH - int(end)):
+                if i == int(remain_dist):
                     if tile_vert[1] == 1:
                         texture_vert = 3
                         break
