@@ -38,4 +38,3 @@ class GameWorld(State):
     def handle_event(self, event: pygame.event.Event):
         if (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             self.exit_state()
-        self.player.single_fire_event(event)
