@@ -71,7 +71,7 @@ class ObjectHandler:
         [sprite.update() for sprite in self.sprite_list]
         [npc.update() for npc in self.npc_list]
         # self.check_win()
-        print(self.enemies)
+        #print(self.enemies)
     def add_npc(self, npc):
         self.npc_list.append(npc)
 

@@ -98,8 +98,6 @@ class Player:
 
     def update(self, delta_time):
         time_now = pygame.time.get_ticks()
-        self.timer = ((time_now - self.time_prev) //
-                      self.animation_frequency) % self.animation_stages
         self.movement(delta_time)
         # self.recover_health(time_now)
         self.check_win()
@@ -110,6 +108,7 @@ class Player:
         if self.game.object_handler.enemies<5 and self.timer-self.time_prev>self.respawn_timer:
             self.game.object_handler.spawn_obstacle()
             self.time_prev=self.timer
+        print(self.timer-self.time_prev)
         
         
         
