@@ -1,7 +1,5 @@
 from constants import *
-from helper import Helper
 from obstacle import Obstacle
-# from npc import *
 from random import *
 
 
@@ -10,7 +8,7 @@ class ObjectHandler:
     def __init__(self, game):
         self.game = game
         self.obstacle_list: list(Obstacle) = []
-        self.types = [0, 1, 2, 3]  # running enenmy, ball, heart,
+        self.types = [0, 1, 2, 3]  # running enenmy, ball, heart, coin
         self.weights = OBSTACLES_WEIGHTS
 
     def update(self):
