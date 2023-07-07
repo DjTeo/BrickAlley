@@ -78,34 +78,28 @@ class Player:
 
     #COLLISIONS
     def check_collision(self):
-        if self.game.object_handler.closest_enemy(
-        )[1] < self.y + PLAYER_SIZE_SCALE and self.game.object_handler.closest_enemy(
-        )[1] > self.y - PLAYER_SIZE_SCALE:
-            will_be_hit = True
-            if will_be_hit and self.game.object_handler.closest_enemy(
-            )[0] <= self.x + 0.3:
-                if self.game.object_handler.obstacle_type[0] == 0:
+        closest = self.game.object_handler.closest_enemy()
+        if closest.y < self.y + PLAYER_SIZE_SCALE and closest.y > self.y - PLAYER_SIZE_SCALE:
+            if closest.x <= self.x + 0.3:
+                if closest.type == 0:
                     self.get_damage(5)
-                elif self.game.object_handler.obstacle_type[0] == 1:
+                elif closest.type == 1:
                     self.get_damage(15)
-                elif self.game.object_handler.obstacle_type[0] == 2:
+                elif closest.type == 2:
                     self.recover_health(5)
                     self.collect_sound.play()
-                elif self.game.object_handler.obstacle_type[0] == 3:
+                elif closest.type == 3:
                     self.coins_collected += 1
                     self.collect_sound.play()
-                self.game.object_handler.remove_sprite()
-                will_be_hit = False
-        elif self.game.object_handler.closest_enemy()[0] <= self.x + 0.3:
-            self.game.object_handler.remove_sprite()
-        else:
-            will_be_hit = False
+                self.game.object_handler.remove_obstacle()
+        elif closest.x <= self.x:
+            self.game.object_handler.remove_obstacle()
 
     def update(self, delta_time):
         self.timer = pygame.time.get_ticks()
         self.movement(delta_time)
         self.check_win()
-        if self.game.object_handler.sprite_list:
+        if self.game.object_handler.obstacle_list:
             self.check_collision()
 
         if self.timer - self.time_prev > self.respawn_timer:  # and self.game.object_handler.enemies < 5: removed, no point if spawning one at a time
