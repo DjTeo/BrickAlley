@@ -84,20 +84,20 @@ class Player:
             will_be_hit = True
             if will_be_hit and self.game.object_handler.closest_enemy(
             )[0] <= self.x + 0.3:
-                if self.game.object_handler.obstacle_type[0] == 0:
+                if self.game.object_handler.obstacle_list[0].type == 0:
                     self.get_damage(5)
-                elif self.game.object_handler.obstacle_type[0] == 1:
+                elif self.game.object_handler.obstacle_list[0].type == 1:
                     self.get_damage(15)
-                elif self.game.object_handler.obstacle_type[0] == 2:
+                elif self.game.object_handler.obstacle_list[0].type == 2:
                     self.recover_health(5)
                     self.collect_sound.play()
-                elif self.game.object_handler.obstacle_type[0] == 3:
+                elif self.game.object_handler.obstacle_list[0].type == 3:
                     self.coins_collected += 1
                     self.collect_sound.play()
-                self.game.object_handler.remove_sprite()
+                self.game.object_handler.remove_obstacle()
                 will_be_hit = False
         elif self.game.object_handler.closest_enemy()[0] <= self.x + 0.3:
-            self.game.object_handler.remove_sprite()
+            self.game.object_handler.remove_obstacle()
         else:
             will_be_hit = False
 
@@ -105,7 +105,7 @@ class Player:
         self.timer = pygame.time.get_ticks()
         self.movement(delta_time)
         self.check_win()
-        if self.game.object_handler.sprite_list:
+        if self.game.object_handler.obstacle_list:
             self.check_collision()
 
         if self.timer - self.time_prev > self.respawn_timer:  # and self.game.object_handler.enemies < 5: removed, no point if spawning one at a time
