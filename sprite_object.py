@@ -18,7 +18,6 @@ class SpriteObject:
         self.sprite_half_width = 0
         self.SPRITE_SCALE = scale
         self.SPRITE_HEIGHT_SHIFT = shift
-        self.SPRITE_SPEED = 0.1
 
     def get_sprite_projection(self):
         proj = SCREEN_DIST / self.norm_dist * self.SPRITE_SCALE
@@ -52,12 +51,10 @@ class SpriteObject:
                 GAME_WIDTH + self.IMAGE_HALF_WIDTH) and self.norm_dist > 0.5:
             self.get_sprite_projection()
 
-    def movement(self):
-        self.x -= self.SPRITE_SPEED
-
-    def update(self):
+    def update(self, x, y):
+        self.x = x
+        self.y = y
         self.get_sprite()
-        self.movement()
 
 
 class AnimatedSprite(SpriteObject):
@@ -76,8 +73,8 @@ class AnimatedSprite(SpriteObject):
         self.animation_time_prev = pg.time.get_ticks()
         self.animation_trigger = False
 
-    def update(self):
-        super().update()
+    def update(self, x, y):
+        super().update(x,y)
         self.check_animation_time()
         self.animate(self.images)
 

@@ -7,18 +7,18 @@ class ObjectHandler:
 
     def __init__(self, game):
         self.game = game
-        self.obstacle_list: list(Obstacle) = []
+        self.obstacle_list = []
         self.types = [0, 1, 2, 3]  # running enenmy, ball, heart, coin
         self.weights = OBSTACLES_WEIGHTS
 
     def update(self):
-        [obstacle.sprite.update() for obstacle in self.obstacle_list]
+        [obstacle.update() for obstacle in self.obstacle_list]
 
     def remove_obstacle(self):
         del self.obstacle_list[0]
 
-    def closest_enemy(self):
-        return self.obstacle_list[0].x, self.obstacle_list[0].y
+    def closest_enemy(self) -> Obstacle:
+        return self.obstacle_list[0]
 
     def spawn_obstacle(self):
         y = PLAYER_LEFT_END + random() + random()

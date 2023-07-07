@@ -78,28 +78,22 @@ class Player:
 
     #COLLISIONS
     def check_collision(self):
-        if self.game.object_handler.closest_enemy(
-        )[1] < self.y + PLAYER_SIZE_SCALE and self.game.object_handler.closest_enemy(
-        )[1] > self.y - PLAYER_SIZE_SCALE:
-            will_be_hit = True
-            if will_be_hit and self.game.object_handler.closest_enemy(
-            )[0] <= self.x + 0.3:
-                if self.game.object_handler.obstacle_list[0].type == 0:
+        closest = self.game.object_handler.closest_enemy()
+        if closest.y < self.y + PLAYER_SIZE_SCALE and closest.y > self.y - PLAYER_SIZE_SCALE:
+            if closest.x <= self.x + 0.3:
+                if closest.type == 0:
                     self.get_damage(5)
-                elif self.game.object_handler.obstacle_list[0].type == 1:
+                elif closest.type == 1:
                     self.get_damage(15)
-                elif self.game.object_handler.obstacle_list[0].type == 2:
+                elif closest.type == 2:
                     self.recover_health(5)
                     self.collect_sound.play()
-                elif self.game.object_handler.obstacle_list[0].type == 3:
+                elif closest.type == 3:
                     self.coins_collected += 1
                     self.collect_sound.play()
                 self.game.object_handler.remove_obstacle()
-                will_be_hit = False
-        elif self.game.object_handler.closest_enemy()[0] <= self.x + 0.3:
+        elif closest.x <= self.x:
             self.game.object_handler.remove_obstacle()
-        else:
-            will_be_hit = False
 
     def update(self, delta_time):
         self.timer = pygame.time.get_ticks()
