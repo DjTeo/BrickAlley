@@ -6,7 +6,7 @@ from helper import Helper
 from states.main_menu import MainMenu
 from states.pause_menu import PauseMenu
 
-
+#Teo
 class Game():
 
     def __init__(self):

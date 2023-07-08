@@ -17,7 +17,8 @@ class ObjectRenderer:
     def render(self, screen):
         self.render_background(screen)
         self.render_game_objects(screen)
-
+    
+    #Teo
     def renderUI(self, screen, score):
         if self.game.game_over:
             screen.blit(self.game_over_image, (0, 0))
@@ -55,7 +56,8 @@ class ObjectRenderer:
                          5,
                          pivot=PIVOT.topRight,
                          big=True)
-
+        
+    #Tutorial
     def render_background(self, screen):
         # Sky
         screen.blit(self.sky_image, (0, 0))
@@ -63,13 +65,15 @@ class ObjectRenderer:
         pygame.draw.rect(screen, BROWN,
                          (0, HALF_HEIGHT, GAME_WIDTH, GAME_HEIGHT))
 
+    #Tutorial
     def render_game_objects(self, screen):
         list_objects = sorted(self.game.raycasting.objects_to_render,
                               key=lambda t: t[0],
                               reverse=True)
         for depth, image, pos in list_objects:
             screen.blit(image, pos)
-
+            
+    #Tutorial
     def load_wall_textures(self):
         return {
             0: Helper.LoadTexture('void.png'),

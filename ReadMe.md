@@ -1,13 +1,23 @@
 # Brick Alley
 
-### It's a game about someone running in an alley
+### It's a game about someone running in an alley!
 
-#### Grab **Coind** to add **score** and avoid **Obstacles** or you will lose.
+#### Grab **Coins** to add **score** and avoid **Enemies** or you will lose.
 <br />
 
-### Singleplayer controls:
+### Player controls:
 
-- Move: Left/Right arrows or A/D keys
+- Move Sideways: Left/Right arrows or A/D keys
+- Control Forward Speed: Up/Down arrows or W/S keys
 
-### Common Controls
-- Pause: Esc
+### Modes:
+
+- Normal Mode (Start Game)
+- Endless Mode (Brick)
+
+### Common Controls:
+- Pause: Esc, Spacebar
+
+#### Credits:
+- Theodosis Gkikas
+- Christos Ntoulias

@@ -3,7 +3,7 @@ from constants import *
 import os
 from collections import deque
 
-
+#Tutorial
 class SpriteObject:
 
     def __init__(self, game, path, pos=(10.5, 3.5), scale=0.7, shift=0.27):
@@ -52,7 +52,7 @@ class SpriteObject:
         self.get_sprite()
         
 
-
+#Tutorial
 class AnimatedSprite(SpriteObject):
 
     def __init__(self,
@@ -78,7 +78,7 @@ class AnimatedSprite(SpriteObject):
         if self.animation_trigger:
             images.rotate(-1)
             self.image = images[0]
-
+    
     def check_animation_time(self, delta_time):
         self.animation_trigger = False
         self.time_now += delta_time

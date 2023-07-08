@@ -2,7 +2,7 @@ from constants import *
 from helper import Helper
 from sprite_object import *
 
-
+#Teo
 class Obstacle:
 
     def __init__(self, game, x, y, type: int):
