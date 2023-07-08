@@ -48,7 +48,7 @@ class Player:
             'rightHandUp.png', (GAME_WIDTH * 0.4, GAME_HEIGHT * 0.8))
         self.timer = 0
         self.animation_stages = 4
-        self.animation_frequency = 180  #this should be related to player speed forward WIP
+        self.animation_frequency = 180
 
     def check_win(self):
         if self.x >= self.end_distance:
@@ -106,6 +106,9 @@ class Player:
     #BORDERS
     def check_movement(self, dx, dy):
         self.x += dx
+        if self.animation_frequency>120:
+            self.animation_frequency-=dx/2
+            print(self.animation_frequency)
         if self.y + dy <= self.right_end and self.y + dy >= self.left_end:
             self.y += dy
 
@@ -141,7 +144,7 @@ class Player:
         self.check_win()
         if self.game.object_handler.obstacle_list:
             self.check_collision()
-
+            
         self.obstacle_time_prev = self.check_spawn(
             self.obstacle_time_prev, self.obstacle_timer,
             self.game.object_handler.spawn_obstacle)
