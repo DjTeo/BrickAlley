@@ -14,11 +14,11 @@ class ObjectRenderer:
         self.game_over_image = Helper.LoadTexture('game_over.png', RES)
         self.win_image = Helper.LoadTexture('victory.png', RES)
 
-    def draw(self, screen):
-        self.draw_background(screen)
+    def render(self, screen):
+        self.render_background(screen)
         self.render_game_objects(screen)
 
-    def drawUI(self, screen, score):
+    def renderUI(self, screen, score):
         if self.game.game_over:
             screen.blit(self.game_over_image, (0, 0))
         elif self.game.victory:
@@ -56,7 +56,7 @@ class ObjectRenderer:
                          pivot=PIVOT.topRight,
                          big=True)
 
-    def draw_background(self, screen):
+    def render_background(self, screen):
         # Sky
         screen.blit(self.sky_image, (0, 0))
         # Floor

@@ -134,8 +134,8 @@ class Player:
         if self.game.object_handler.obstacle_list:
             self.check_collision()
         self.increase_dif(delta_time)
-
-    def draw(self, screen):
+    
+    def render(self, screen):
         if (self.timer //
                 self.animation_frequency) % self.animation_stages == 0:
             screen.blit(self.right_hand,
@@ -160,7 +160,7 @@ class Player:
         if self.player_hit:
             screen.blit(self.blood_screen, (0, 0))
             self.player_hit = False
-
+    #END CHRIS
     @property
     def pos(self):
         return self.x, self.y
