@@ -47,6 +47,7 @@ class Game():
 
     def update(self):
         try:
+            # Update current state
             self.state_stack[-1].update(self.dt)
         except Exception as e:
             print(f"Error in update: {e.args}")
@@ -72,6 +73,7 @@ class Game():
         self.prev_time = now
 
     def load_assets(self):
+        # initialize Helper class
         _ = Helper()
         Helper.PlayMusic("8bit_tune.mp3")
 

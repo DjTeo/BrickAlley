@@ -24,7 +24,7 @@ class GameWorld(State):
         if not self.game_over and not self.victory:
             self.player.update(delta_time)
             self.raycasting.update()
-            self.object_handler.update()
+            self.object_handler.update(delta_time)
 
     def render(self, display):
         self.object_renderer.draw(display)

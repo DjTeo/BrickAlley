@@ -16,6 +16,9 @@ class Player:
         self.coins_collected = 0
         self.time_prev = pygame.time.get_ticks()
         self.respawn_timer = OBSTACLES_RESPAWN
+        self.coin_timer = COIN_RESPAWN
+        self.coin_prev_timer = 0
+
         self.player_pain = Helper.PrepareSound("player_pain.wav", 0.75)
         self.collect_sound = Helper.PrepareSound("collect.wav")
         self.blood_screen = Helper.LoadTexture('blood_texture.png', RES)
@@ -69,8 +72,8 @@ class Player:
         return int(self.x) + self.coins_collected * COINS_SCORE + self.health
 
     def movement(self, delta_time):
-        dx, dy = self.forward_speed * delta_time, 0
-        speed = PLAYER_SIDEWAYS_SPEED * delta_time
+        dx, dy = self.forward_speed, 0
+        speed = PLAYER_SIDEWAYS_SPEED
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
@@ -78,7 +81,12 @@ class Player:
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             dy += speed
 
-        self.check_movement(dx, dy)
+        if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+            dx -= PLAYER_FORWARD_SPEED
+        if keys[pygame.K_w] or keys[pygame.K_UP]:
+            dx += PLAYER_FORWARD_SPEED
+
+        self.check_movement(dx * delta_time, dy * delta_time)
 
     #BORDERS
     def check_movement(self, dx, dy):
@@ -101,9 +109,9 @@ class Player:
                 elif closest.type == 3:
                     self.coins_collected += 1
                     self.collect_sound.play()
-                self.game.object_handler.remove_obstacle()
+                self.game.object_handler.remove_obstacle(closest)
         elif closest.x <= self.x:
-            self.game.object_handler.remove_obstacle()
+            self.game.object_handler.remove_obstacle(closest)
 
     def update(self, delta_time):
         self.timer = pygame.time.get_ticks()
@@ -116,6 +124,11 @@ class Player:
                 self.x) >= 20:
             self.game.object_handler.spawn_obstacle()
             self.time_prev = self.timer
+
+        if self.timer - self.coin_prev_timer > self.coin_timer:
+            self.game.object_handler.spawn_coin()
+            self.coin_prev_timer = self.timer
+
         self.increase_dif(delta_time)
 
     def draw(self, screen):

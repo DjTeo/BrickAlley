@@ -1,3 +1,4 @@
+import random
 import pygame
 from constants import *
 from helper import Helper
@@ -8,7 +9,7 @@ class ObjectRenderer:
     def __init__(self, game):
         self.game = game
         self.wall_textures = self.load_wall_textures()
-        self.sky_image = Helper.LoadTexture('sky.png',
+        self.sky_image = Helper.LoadTexture(F'sky.png',
                                             (GAME_WIDTH, HALF_HEIGHT))
         self.sky_offset = 0
         self.game_over_image = Helper.LoadTexture('game_over.png', RES)
