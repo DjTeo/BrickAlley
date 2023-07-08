@@ -26,22 +26,22 @@ class RayCasting:
             depth, proj_height, texture, offset = values
 
             if proj_height < GAME_HEIGHT:
-                wall_column = self.textures[texture].subsurface(
+                wall_surface = self.textures[texture].subsurface(
                     offset * (TEXTURE_SIZE - SCALE), 0, SCALE, TEXTURE_SIZE)
-                wall_column = pygame.transform.scale(wall_column,
+                wall_surface = pygame.transform.scale(wall_surface,
                                                      (SCALE, proj_height))
                 wall_pos = (ray * SCALE, HALF_HEIGHT - proj_height // 2)
             else:
                 texture_height = TEXTURE_SIZE * GAME_HEIGHT / proj_height
-                wall_column = self.textures[texture].subsurface(
+                wall_surface = self.textures[texture].subsurface(
                     offset * (TEXTURE_SIZE - SCALE),
                     HALF_TEXTURE_SIZE - texture_height // 2, SCALE,
                     texture_height)
-                wall_column = pygame.transform.scale(wall_column,
+                wall_surface = pygame.transform.scale(wall_surface,
                                                      (SCALE, GAME_HEIGHT))
                 wall_pos = (ray * SCALE, 0)
 
-            self.objects_to_render.append((depth, wall_column, wall_pos))
+            self.objects_to_render.append((depth, wall_surface, wall_pos))
 
     def ray_cast(self):
         self.ray_casting_result = []
