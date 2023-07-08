@@ -27,9 +27,9 @@ class GameWorld(State):
             self.object_handler.update(delta_time)
 
     def render(self, display):
-        self.object_renderer.draw(display)
-        self.player.draw(display)
-        self.object_renderer.drawUI(display, self.player.total_score())
+        self.object_renderer.render(display)
+        self.player.render(display)
+        self.object_renderer.renderUI(display, self.player.total_score())
 
     def handle_event(self, event: pygame.event.Event):
         if (event.type == pygame.KEYDOWN and
