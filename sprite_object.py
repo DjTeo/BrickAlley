@@ -18,6 +18,7 @@ class SpriteObject:
         self.sprite_half_width = 0
         self.SPRITE_SCALE = scale
         self.SPRITE_HEIGHT_SHIFT = shift
+        self.time_now = 0
 
     def get_sprite_projection(self):
         proj = SCREEN_DIST / self.norm_dist * self.SPRITE_SCALE
@@ -51,7 +52,7 @@ class SpriteObject:
                 GAME_WIDTH + self.IMAGE_HALF_WIDTH) and self.norm_dist > 0.5:
             self.get_sprite_projection()
 
-    def update(self, x, y):
+    def update(self, x, y, delta_time):
         self.x = x
         self.y = y
         self.get_sprite()
@@ -65,17 +66,17 @@ class AnimatedSprite(SpriteObject):
                  pos=(15.5, 2.5),
                  scale=0.8,
                  shift=0.16,
-                 animation_time=120):
+                 animation_time=0.12):
         super().__init__(game, path, pos, scale, shift)
         self.animation_time = animation_time
         self.path = path.rsplit('/', 1)[0]
         self.images = self.get_images(self.path)
-        self.animation_time_prev = pg.time.get_ticks()
+        self.animation_time_prev = 0
         self.animation_trigger = False
 
-    def update(self, x, y):
-        super().update(x,y)
-        self.check_animation_time()
+    def update(self, x, y, delta_time):
+        super().update(x, y, delta_time)
+        self.check_animation_time(delta_time)
         self.animate(self.images)
 
     def animate(self, images):
@@ -83,11 +84,11 @@ class AnimatedSprite(SpriteObject):
             images.rotate(-1)
             self.image = images[0]
 
-    def check_animation_time(self):
+    def check_animation_time(self, delta_time):
         self.animation_trigger = False
-        time_now = pg.time.get_ticks()
-        if time_now - self.animation_time_prev > self.animation_time:
-            self.animation_time_prev = time_now
+        self.time_now += delta_time
+        if self.time_now - self.animation_time_prev > self.animation_time:
+            self.animation_time_prev = self.time_now
             self.animation_trigger = True
 
     def get_images(self, path):

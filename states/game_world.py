@@ -32,5 +32,9 @@ class GameWorld(State):
         self.object_renderer.drawUI(display, self.player.total_score())
 
     def handle_event(self, event: pygame.event.Event):
-        if (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-            self.exit_state()
+        if (event.type == pygame.KEYDOWN and
+            (event.key == pygame.K_ESCAPE or event.key == pygame.K_SPACE)):
+            if self.game_over or self.victory:
+                self.exit_state()
+            else:
+                self.game.pause_game()
