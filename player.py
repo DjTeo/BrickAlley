@@ -9,7 +9,7 @@ class Player:
                  game,
                  health=PLAYER_MAX_HEALTH,
                  obstacle_timer=OBSTACLES_RESPAWN,
-                 obstacle_min_timer=MIN_RESPAWN,
+                 obstacle_min_timer=OBSTACLES_MIN_RESPAWN,
                  coin_timer=COIN_RESPAWN,
                  max_speed=MAX_SPEED,
                  left_Wall=LEFT_WALL,
@@ -23,7 +23,7 @@ class Player:
         self.health = health
         self.player_hit = False
         self.coins_collected = 0
-        self.obstacle_time_prev = pygame.time.get_ticks()
+        self.obstacle_time_prev = 0
         self.obstacle_timer = obstacle_timer
         self.obstacle_min_timer = obstacle_min_timer
         self.coin_timer = coin_timer
@@ -48,7 +48,7 @@ class Player:
             'rightHandUp.png', (GAME_WIDTH * 0.4, GAME_HEIGHT * 0.8))
         self.timer = 0
         self.animation_stages = 4
-        self.animation_frequency = 180
+        self.animation_frequency = 0.2  #this should be related to player speed forward WIP
 
     def check_win(self):
         if self.x >= self.end_distance:
@@ -57,14 +57,14 @@ class Player:
     # DIFFICULTY MOD
     def increase_dif(self, delta_time):
         if self.forward_speed < self.max_speed:
-            self.forward_speed += 0.08 * delta_time
+            self.forward_speed += 0.075 * delta_time
         else:
             self.forward_speed = self.max_speed
         if self.obstacle_timer > self.obstacle_min_timer:
-            self.obstacle_timer -= 15 * delta_time
+            self.obstacle_timer -= 0.015 * delta_time
         else:
             self.obstacle_timer = self.obstacle_min_timer
-        # print(self.forward_speed, self.respawn_timer)
+        # print(self.forward_speed, self.obstacle_timer)
 
     # Player got hit
     def get_damage(self, damage):
@@ -133,13 +133,14 @@ class Player:
 
     # Spawn object if needed
     def check_spawn(self, time_prev, timer, spawner):
-        if self.timer - time_prev > timer and self.end_distance - int(self.x) >= 20:
+        if self.timer - time_prev > timer and self.end_distance - int(
+                self.x) >= 20:
             spawner()
             return self.timer
         return time_prev
 
     def update(self, delta_time):
-        self.timer = pygame.time.get_ticks()
+        self.timer += delta_time
         self.movement(delta_time)
         self.check_win()
         if self.game.object_handler.obstacle_list:

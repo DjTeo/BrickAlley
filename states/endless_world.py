@@ -15,7 +15,7 @@ class EndlessWorld(State):
         self.victory = False
         self.player = Player(self,
                              right_Wall=ENDLESS_RIGHT_WALL,
-                             obstacle_min_timer=ENDLESS_MIN_RESPAWN,
+                             obstacle_min_timer=ENDLESS_OBSTACLES_MIN_RESPAWN,
                              max_speed=ENDLESS_MAX_SPEED,
                              coin_timer=ENDLESS_COIN_RESPAWN,
                              end_distance=ENDLESS_DISTANCE)
@@ -42,5 +42,10 @@ class EndlessWorld(State):
         self.object_renderer.drawUI(display, self.player.total_score())
 
     def handle_event(self, event: pygame.event.Event):
-        if (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-            self.exit_state()
+        if (event.type == pygame.KEYDOWN and
+            (event.key == pygame.K_ESCAPE or event.key == pygame.K_SPACE)):
+            if self.game_over or self.victory:
+                self.exit_state()
+            else:
+                self.game.pause_game()
+

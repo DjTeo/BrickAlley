@@ -47,7 +47,7 @@ class Obstacle:
 
     def update(self, delta_time):
         self.movement(delta_time)
-        self.sprite.update(self.x, self.y)
+        self.sprite.update(self.x, self.y, delta_time)
 
     def movement(self, delta_time):
         self.x -= self.obstacle_speed * delta_time
