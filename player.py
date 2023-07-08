@@ -5,19 +5,33 @@ from helper import Helper
 
 class Player:
 
-    def __init__(self, game):
+    def __init__(self,
+                 game,
+                 health=PLAYER_MAX_HEALTH,
+                 obstacle_timer=OBSTACLES_RESPAWN,
+                 obstacle_min_timer=MIN_RESPAWN,
+                 coin_timer=COIN_RESPAWN,
+                 max_speed=MAX_SPEED,
+                 left_Wall=LEFT_WALL,
+                 right_Wall=RIGHT_WALL,
+                 end_distance=END_DISTANCE):
         self.game = game
-        self.x, self.y = PLAYER_POS
+        self.x = 0
+        self.y = (left_Wall + right_Wall) / 2 + 0.5
         self.forward_speed = PLAYER_STARTING_SPEED
-        self.angle = PLAYER_ANGLE
-        self.health = PLAYER_MAX_HEALTH
-        self.health_recovery_delay = 700
+        self.angle = 0
+        self.health = health
         self.player_hit = False
         self.coins_collected = 0
-        self.time_prev = pygame.time.get_ticks()
-        self.respawn_timer = OBSTACLES_RESPAWN
-        self.coin_timer = COIN_RESPAWN
+        self.obstacle_time_prev = pygame.time.get_ticks()
+        self.obstacle_timer = obstacle_timer
+        self.obstacle_min_timer = obstacle_min_timer
+        self.coin_timer = coin_timer
         self.coin_prev_timer = 0
+        self.max_speed = max_speed
+        self.left_end = left_Wall + 1 + PLAYER_SIZE_SCALE
+        self.right_end = right_Wall - PLAYER_SIZE_SCALE
+        self.end_distance = end_distance
 
         self.player_pain = Helper.PrepareSound("player_pain.wav", 0.75)
         self.collect_sound = Helper.PrepareSound("collect.wav")
@@ -37,22 +51,22 @@ class Player:
         self.animation_frequency = 180  #this should be related to player speed forward WIP
 
     def check_win(self):
-        if self.x >= END_DISTANCE:
+        if self.x >= self.end_distance:
             self.game.victory = True
 
-    #DIFFICULTY MOD
+    # DIFFICULTY MOD
     def increase_dif(self, delta_time):
-        if self.forward_speed < MAX_SPEED:
+        if self.forward_speed < self.max_speed:
             self.forward_speed += 0.08 * delta_time
         else:
-            self.forward_speed = MAX_SPEED
-        if self.respawn_timer > MIN_RESPAWN:
-            self.respawn_timer -= 15 * delta_time
+            self.forward_speed = self.max_speed
+        if self.obstacle_timer > self.obstacle_min_timer:
+            self.obstacle_timer -= 15 * delta_time
         else:
-            self.respawn_timer = MIN_RESPAWN
+            self.obstacle_timer = self.obstacle_min_timer
         # print(self.forward_speed, self.respawn_timer)
 
-    #PLAYER STATS
+    # Player got hit
     def get_damage(self, damage):
         self.health -= damage
         self.player_hit = True
@@ -61,6 +75,7 @@ class Player:
             self.health = 0
             self.game.game_over = True
 
+    # Health up
     def recover_health(self, amount):
         if self.health < 100:
             if self.health + amount > 100:
@@ -91,7 +106,7 @@ class Player:
     #BORDERS
     def check_movement(self, dx, dy):
         self.x += dx
-        if self.y + dy < PLAYER_RIGHT_END and self.y + dy > PLAYER_LEFT_END:
+        if self.y + dy <= self.right_end and self.y + dy >= self.left_end:
             self.y += dy
 
     #COLLISIONS
@@ -113,6 +128,13 @@ class Player:
         elif closest.x <= self.x:
             self.game.object_handler.remove_obstacle(closest)
 
+    # Spawn object if needed
+    def check_spawn(self, time_prev, timer, spawner):
+        if self.timer - time_prev > timer and self.end_distance - int(self.x) >= 20:
+            spawner()
+            return self.timer
+        return time_prev
+
     def update(self, delta_time):
         self.timer = pygame.time.get_ticks()
         self.movement(delta_time)
@@ -120,14 +142,13 @@ class Player:
         if self.game.object_handler.obstacle_list:
             self.check_collision()
 
-        if self.timer - self.time_prev > self.respawn_timer and END_DISTANCE - int(
-                self.x) >= 20:
-            self.game.object_handler.spawn_obstacle()
-            self.time_prev = self.timer
+        self.obstacle_time_prev = self.check_spawn(
+            self.obstacle_time_prev, self.obstacle_timer,
+            self.game.object_handler.spawn_obstacle)
 
-        if self.timer - self.coin_prev_timer > self.coin_timer:
-            self.game.object_handler.spawn_coin()
-            self.coin_prev_timer = self.timer
+        self.coin_prev_timer = self.check_spawn(
+            self.coin_prev_timer, self.coin_timer,
+            self.game.object_handler.spawn_coin)
 
         self.increase_dif(delta_time)
 

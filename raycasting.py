@@ -5,11 +5,20 @@ from constants import *
 
 class RayCasting:
 
-    def __init__(self, game):
+    def __init__(self,
+                 game,
+                 leftWall=LEFT_WALL,
+                 rightWall=RIGHT_WALL,
+                 end_distance=END_DISTANCE):
         self.game = game
         self.ray_casting_result = []
         self.objects_to_render = []
         self.textures = self.game.object_renderer.wall_textures
+        self.leftWall = leftWall
+        self.rightWall = rightWall
+        self.middleLeft = int((leftWall + rightWall) / 2.0)
+        self.middleRight = self.middleLeft + 1
+        self.end_distance = end_distance
 
     def get_objects_to_render(self):
         self.objects_to_render = []
@@ -39,7 +48,7 @@ class RayCasting:
         texture_vert, texture_hor = 1, 1
         ox, oy = self.game.player.pos
         x_map, y_map = self.game.player.map_pos
-        remain_dist = (END_DISTANCE - ox)
+        remain_dist = (self.end_distance - ox)
 
         ray_angle = self.game.player.angle - HALF_FOV + 0.0001
         for ray in range(NUM_RAYS):
@@ -58,11 +67,12 @@ class RayCasting:
             for i in range(MAX_DEPTH):
                 tile_hor = int(x_hor), int(y_hor)
                 # if tile_hor in self.game.map.world_map:
-                if tile_hor[1] == 0 or tile_hor[1] == 3:
-                    if tile_hor[0] % 23 == 0 and tile_hor[1] == 3:
+                if tile_hor[1] == self.leftWall or tile_hor[
+                        1] == self.rightWall:
+                    if tile_hor[0] % 23 == 0 and tile_hor[1] == self.rightWall:
                         texture_hor = 2
                         break
-                    if tile_hor[0] % 17 == 0 and tile_hor[1] == 0:
+                    if tile_hor[0] % 17 == 0 and tile_hor[1] == self.leftWall:
                         texture_hor = 2
                         break
                     texture_hor = 1  #self.game.map.world_map[tile_hor]
@@ -85,11 +95,14 @@ class RayCasting:
                 tile_vert = int(x_vert), int(y_vert)
                 #RENDER THE EXIT DOOR AT MAX DEPTH
                 if i == int(remain_dist):
-                    if tile_vert[1] == 1:
+                    if tile_vert[1] == self.middleLeft:
                         texture_vert = 3
                         break
-                    if tile_vert[1] == 2:
+                    elif tile_vert[1] == self.middleRight:
                         texture_vert = 4
+                        break
+                    else:
+                        texture_vert = 1
                         break
                 x_vert += dx
                 y_vert += dy
