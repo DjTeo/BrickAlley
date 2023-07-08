@@ -15,18 +15,20 @@ class EndlessWorld(State):
         self.victory = False
         self.player = Player(self,
                              right_Wall=ENDLESS_RIGHT_WALL,
-                             obstacle_min_timer=ENDLESS_OBSTACLES_MIN_RESPAWN,
                              max_speed=ENDLESS_MAX_SPEED,
-                             coin_timer=ENDLESS_COIN_RESPAWN,
                              end_distance=ENDLESS_DISTANCE)
         self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self,
                                      rightWall=ENDLESS_RIGHT_WALL,
                                      end_distance=ENDLESS_DISTANCE)
-        self.object_handler = ObjectHandler(self,
-                                            rightWall=ENDLESS_RIGHT_WALL,
-                                            weights=ENDLESS_OBSTACLES_WEIGHTS,
-                                            endless=True)
+        self.object_handler = ObjectHandler(
+            self,
+            rightWall=ENDLESS_RIGHT_WALL,
+            weights=ENDLESS_OBSTACLES_WEIGHTS,
+            obstacle_min_timer=ENDLESS_OBSTACLES_MIN_RESPAWN,
+            coin_timer=ENDLESS_COIN_RESPAWN,
+            end_distance=ENDLESS_DISTANCE,
+            endless=True)
 
     def update(self, delta_time):
         pygame.display.set_caption(
@@ -48,4 +50,3 @@ class EndlessWorld(State):
                 self.exit_state()
             else:
                 self.game.pause_game()
-
