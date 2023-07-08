@@ -10,9 +10,9 @@ class PauseMenu(State):
         State.__init__(self, game)
         # Set the menu
         self.resume_game_SURF, self.resume_game_RECT = Helper.makeText(
-            " Resume Game ", LIME)
+            " Resume Game ", GOLD)
         self.exit_game_SURF, self.exit_game_RECT = Helper.makeText(
-            " Exit to Main Menu ", BLACK)
+            " Exit to Main Menu ", NAVY_BLUE)
 
         Helper.CenterRect(self.resume_game_RECT, 200)
         Helper.CenterRect(self.exit_game_RECT, 300)
