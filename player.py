@@ -16,6 +16,10 @@ class Player:
         self.coins_collected = 0
         self.time_prev = pygame.time.get_ticks()
         self.respawn_timer = OBSTACLES_RESPAWN
+        
+        self.coin_timer=2000
+        self.coin_prev_timer=0
+        
         self.player_pain = Helper.PrepareSound("player_pain.wav", 0.75)
         self.collect_sound = Helper.PrepareSound("collect.wav")
         self.blood_screen = Helper.LoadTexture('blood_texture.png', RES)
@@ -111,13 +115,19 @@ class Player:
         self.check_win()
         if self.game.object_handler.obstacle_list:
             self.check_collision()
-
+            
+        
         if self.timer - self.time_prev > self.respawn_timer and END_DISTANCE - int(
                 self.x) >= 20:
             self.game.object_handler.spawn_obstacle()
             self.time_prev = self.timer
+            
+        if self.timer-self.coin_prev_timer >self.coin_timer:
+            self.game.object_handler.spawn_coin()
+            self.coin_prev_timer=self.timer
+            
         self.increase_dif(delta_time)
-
+        
     def draw(self, screen):
         if (self.timer //
                 self.animation_frequency) % self.animation_stages == 0:
