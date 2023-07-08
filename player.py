@@ -113,7 +113,7 @@ class Player:
             self.check_collision()
 
         if self.timer - self.time_prev > self.respawn_timer and END_DISTANCE - int(
-                self.x) >= 10:
+                self.x) >= 20:
             self.game.object_handler.spawn_obstacle()
             self.time_prev = self.timer
         self.increase_dif(delta_time)
