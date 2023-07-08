@@ -28,7 +28,7 @@ OBSTACLES_RESPAWN = 1.2  # in secs
 OBSTACLES_MIN_RESPAWN = 0.500  # in secs
 OBSTACLES_WEIGHTS = [47, 43, 10]  # running enenmy, ball, health
 COINS_SCORE = 5
-COIN_RESPAWN = 4  # in sec
+COIN_RESPAWN = 2.5  # in sec
 
 # ENDLESS WORLD PROPERTIES
 ENDLESS_DISTANCE = 9000 # distance

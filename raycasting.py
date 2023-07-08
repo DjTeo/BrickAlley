@@ -66,7 +66,6 @@ class RayCasting:
 
             for i in range(MAX_DEPTH):
                 tile_hor = int(x_hor), int(y_hor)
-                # if tile_hor in self.game.map.world_map:
                 if tile_hor[1] == self.leftWall or tile_hor[
                         1] == self.rightWall:
                     if tile_hor[0] % 23 == 0 and tile_hor[1] == self.rightWall:
@@ -75,7 +74,7 @@ class RayCasting:
                     if tile_hor[0] % 17 == 0 and tile_hor[1] == self.leftWall:
                         texture_hor = 2
                         break
-                    texture_hor = 1  #self.game.map.world_map[tile_hor]
+                    texture_hor = 1
                     break
 
                 x_hor += dx
