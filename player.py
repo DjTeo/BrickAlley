@@ -36,8 +36,18 @@ class Player:
     def check_win(self):
         if self.x >= END_DISTANCE:
             self.game.victory = True
-            # pg.time.delay(1500)
-            # self.game.new_game()
+
+    #DIFFICULTY MOD
+    def increase_dif(self, delta_time):
+        if self.forward_speed < MAX_SPEED:
+            self.forward_speed += 0.08 * delta_time
+        else:
+            self.forward_speed = MAX_SPEED
+        if self.respawn_timer > MIN_RESPAWN:
+            self.respawn_timer -= 15 * delta_time
+        else:
+            self.respawn_timer = MIN_RESPAWN
+        # print(self.forward_speed, self.respawn_timer)
 
     #PLAYER STATS
     def get_damage(self, damage):
@@ -79,7 +89,7 @@ class Player:
     #COLLISIONS
     def check_collision(self):
         closest = self.game.object_handler.closest_enemy()
-        if closest.y < self.y + PLAYER_SIZE_SCALE and closest.y > self.y - PLAYER_SIZE_SCALE:
+        if closest.y < self.y + PLAYER_SIZE_SCALE + closest.size and closest.y > self.y - PLAYER_SIZE_SCALE - closest.size:
             if closest.x <= self.x + 0.3:
                 if closest.type == 0:
                     self.get_damage(5)
@@ -102,9 +112,11 @@ class Player:
         if self.game.object_handler.obstacle_list:
             self.check_collision()
 
-        if self.timer - self.time_prev > self.respawn_timer:  # and self.game.object_handler.enemies < 5: removed, no point if spawning one at a time
+        if self.timer - self.time_prev > self.respawn_timer and END_DISTANCE - int(
+                self.x) >= 10:
             self.game.object_handler.spawn_obstacle()
             self.time_prev = self.timer
+        self.increase_dif(delta_time)
 
     def draw(self, screen):
         if (self.timer //
