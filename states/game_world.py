@@ -11,12 +11,8 @@ class GameWorld(State):
 
     def __init__(self, game):
         State.__init__(self, game)
-        self.groundOffset = 55
         self.game_over = False
         self.victory = False
-        self.itemsCount = 10
-        self.playerNum = 1
-        self.current_distance: float = 0
         self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self)
