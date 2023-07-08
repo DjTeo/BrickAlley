@@ -8,9 +8,6 @@ class Player:
     def __init__(self,
                  game,
                  health=PLAYER_MAX_HEALTH,
-                 obstacle_timer=OBSTACLES_RESPAWN,
-                 obstacle_min_timer=OBSTACLES_MIN_RESPAWN,
-                 coin_timer=COIN_RESPAWN,
                  max_speed=MAX_SPEED,
                  left_Wall=LEFT_WALL,
                  right_Wall=RIGHT_WALL,
@@ -23,11 +20,6 @@ class Player:
         self.health = health
         self.player_hit = False
         self.coins_collected = 0
-        self.obstacle_time_prev = 0
-        self.obstacle_timer = obstacle_timer
-        self.obstacle_min_timer = obstacle_min_timer
-        self.coin_timer = coin_timer
-        self.coin_prev_timer = 0
         self.max_speed = max_speed
         self.left_end = left_Wall + 1 + PLAYER_SIZE_SCALE
         self.right_end = right_Wall - PLAYER_SIZE_SCALE
@@ -60,11 +52,6 @@ class Player:
             self.forward_speed += 0.075 * delta_time
         else:
             self.forward_speed = self.max_speed
-        if self.obstacle_timer > self.obstacle_min_timer:
-            self.obstacle_timer -= 0.015 * delta_time
-        else:
-            self.obstacle_timer = self.obstacle_min_timer
-        # print(self.forward_speed, self.obstacle_timer)
 
     # Player got hit
     def get_damage(self, damage):
@@ -140,29 +127,12 @@ class Player:
         elif closest.x <= self.x:
             self.game.object_handler.remove_obstacle(closest)
 
-    # Spawn object if needed
-    def check_spawn(self, time_prev, timer, spawner):
-        if self.timer - time_prev > timer and self.end_distance - int(
-                self.x) >= 20:
-            spawner()
-            return self.timer
-        return time_prev
-
     def update(self, delta_time):
         self.timer += delta_time
         self.movement(delta_time)
         self.check_win()
         if self.game.object_handler.obstacle_list:
             self.check_collision()
-
-        self.obstacle_time_prev = self.check_spawn(
-            self.obstacle_time_prev, self.obstacle_timer,
-            self.game.object_handler.spawn_obstacle)
-
-        self.coin_prev_timer = self.check_spawn(
-            self.coin_prev_timer, self.coin_timer,
-            self.game.object_handler.spawn_coin)
-
         self.increase_dif(delta_time)
 
     def draw(self, screen):
