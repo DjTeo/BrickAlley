@@ -11,7 +11,6 @@ class ObjectRenderer:
         self.wall_textures = self.load_wall_textures()
         self.sky_image = Helper.LoadTexture(F'sky.png',
                                             (GAME_WIDTH, HALF_HEIGHT))
-        self.sky_offset = 0
         self.game_over_image = Helper.LoadTexture('game_over.png', RES)
         self.win_image = Helper.LoadTexture('victory.png', RES)
 
@@ -58,10 +57,9 @@ class ObjectRenderer:
                          big=True)
 
     def draw_background(self, screen):
-        self.sky_offset = self.sky_offset % GAME_WIDTH
-        screen.blit(self.sky_image, (-self.sky_offset, 0))
-        screen.blit(self.sky_image, (-self.sky_offset + GAME_WIDTH, 0))
-        # floor
+        # Sky
+        screen.blit(self.sky_image, (0, 0))
+        # Floor
         pygame.draw.rect(screen, BROWN,
                          (0, HALF_HEIGHT, GAME_WIDTH, GAME_HEIGHT))
 

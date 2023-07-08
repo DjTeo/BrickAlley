@@ -43,7 +43,7 @@ class Obstacle:
                                          '/coinSprite/1.png',
                                          pos=(x, y),
                                          scale=0.6,
-                                         shift=0.55)
+                                         shift=0.6)
 
     def update(self, delta_time):
         self.movement(delta_time)
