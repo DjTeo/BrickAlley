@@ -29,7 +29,7 @@ class MainMenu(State):
     def render(self, display):
         display.fill(SKY_BLUE)
         display.blit(self.walls,
-                     Rect(0, GAME_HEIGHT - 450, GAME_WIDTH, GAME_HEIGHT))
+                     Rect(0, GAME_HEIGHT - HALF_HEIGHT, GAME_WIDTH, GAME_HEIGHT))
         # display.fill(BROWN, Rect(0, GAME_HEIGHT - 150, GAME_WIDTH, 150))
         Helper.draw_text(display, "Hello Brick, I am Alley!", MAROON, 0, 50,
                          True, True)

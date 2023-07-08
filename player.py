@@ -101,6 +101,8 @@ class Player:
         if keys[pygame.K_w] or keys[pygame.K_UP]:
             dx += PLAYER_FORWARD_SPEED
 
+        self.animation_frequency = self.calculate_anim_frequency(dx)
+
         self.check_movement(dx * delta_time, dy * delta_time)
 
     #BORDERS
@@ -108,6 +110,16 @@ class Player:
         self.x += dx
         if self.y + dy <= self.right_end and self.y + dy >= self.left_end:
             self.y += dy
+
+    def calculate_anim_frequency(self, dx):
+        if dx >= 1:
+            result = 0.27 - 0.046 * math.sqrt(dx - 1)
+        else:  #in case player hits 5 too early
+            result = 0.25
+        if result < 0.1:
+            return 0.1
+
+        return result
 
     #COLLISIONS
     def check_collision(self):
