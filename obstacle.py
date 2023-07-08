@@ -35,8 +35,8 @@ class Obstacle:
                                          path=Helper.animated_sprites_dir +
                                          '/heartSprite/1.png',
                                          pos=(x, y),
-                                         scale=1.2,
-                                         shift=0.25)
+                                         scale=0.25,
+                                         shift=1.1)
         elif self.type == 3:
             self.sprite = AnimatedSprite(self.game,
                                          path=Helper.animated_sprites_dir +
