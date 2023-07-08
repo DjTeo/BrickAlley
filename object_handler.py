@@ -60,4 +60,4 @@ class ObjectHandler:
         if heartRate <= 0:
             heartRate = 0.1
         self.weights[-1] = heartRate
-        print(self.weights)
+        # print(self.weights)

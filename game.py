@@ -5,6 +5,8 @@ from constants import *
 from pygame.locals import *
 from helper import Helper
 from states.main_menu import MainMenu
+from states.pause_menu import PauseMenu
+
 
 class Game():
 
@@ -40,10 +42,6 @@ class Game():
             self.state_stack[-1].handle_event(event)
             if event.type == pygame.QUIT:
                 self.running = False
-            if event.type == pygame.KEYDOWN:
-                pass
-            if event.type == pygame.KEYUP:
-                pass
 
     def update(self):
         try:
@@ -80,6 +78,11 @@ class Game():
     def load_states(self):
         self.title_screen = MainMenu(self)
         self.state_stack.append(self.title_screen)
+
+    def pause_game(self):
+        pause = PauseMenu(self)
+        pause.enter_state()
+
 
 if __name__ == "__main__":
     g = Game()
