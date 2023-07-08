@@ -42,26 +42,30 @@ class Player:
         self.animation_stages = 4
         self.animation_frequency = 0.2  #this should be related to player speed forward WIP
 
+    #Teo,Tutorial
     def check_win(self):
         if self.x >= self.end_distance:
             self.game.victory = True
 
-    # DIFFICULTY MOD
+    #chris
     def increase_dif(self, delta_time):
         if self.forward_speed < self.max_speed:
             self.forward_speed += 0.075 * delta_time
         else:
             self.forward_speed = self.max_speed
-
+            
+    #Tutorial
     # Player got hit
     def get_damage(self, damage):
         self.health -= damage
         self.player_hit = True
         self.player_pain.play()
+        #Teo
         if self.health < 1:
             self.health = 0
             self.game.game_over = True
 
+    #chris
     # Health up
     def recover_health(self, amount):
         if self.health < 100:
@@ -70,9 +74,11 @@ class Player:
             else:
                 self.health += amount
 
+    #Teo
     def total_score(self):
         return int(self.x) + self.coins_collected * COINS_SCORE + self.health
 
+    #Teo
     def movement(self, delta_time):
         dx, dy = self.forward_speed, 0
         speed = PLAYER_SIDEWAYS_SPEED
@@ -92,12 +98,13 @@ class Player:
 
         self.check_movement(dx * delta_time, dy * delta_time)
 
-    #BORDERS
+    #Teo
     def check_movement(self, dx, dy):
         self.x += dx
         if self.y + dy <= self.right_end and self.y + dy >= self.left_end:
             self.y += dy
 
+    #chris
     def calculate_anim_frequency(self, dx):
         if dx >= 1:
             result = 0.27 - 0.046 * math.sqrt(dx - 1)
@@ -105,10 +112,9 @@ class Player:
             result = 0.25
         if result < 0.1:
             return 0.1
-
         return result
 
-    #COLLISIONS
+    #chris
     def check_collision(self):
         closest = self.game.object_handler.closest_enemy()
         if closest.y < self.y + PLAYER_SIZE_SCALE + closest.size and closest.y > self.y - PLAYER_SIZE_SCALE - closest.size:
@@ -126,7 +132,7 @@ class Player:
                 self.game.object_handler.remove_obstacle(closest)
         elif closest.x <= self.x:
             self.game.object_handler.remove_obstacle(closest)
-
+    
     def update(self, delta_time):
         self.timer += delta_time
         self.movement(delta_time)
@@ -134,8 +140,9 @@ class Player:
         if self.game.object_handler.obstacle_list:
             self.check_collision()
         self.increase_dif(delta_time)
-
-    def draw(self, screen):
+    
+    #chris
+    def render(self, screen):
         if (self.timer //
                 self.animation_frequency) % self.animation_stages == 0:
             screen.blit(self.right_hand,
@@ -160,7 +167,7 @@ class Player:
         if self.player_hit:
             screen.blit(self.blood_screen, (0, 0))
             self.player_hit = False
-
+    
     @property
     def pos(self):
         return self.x, self.y

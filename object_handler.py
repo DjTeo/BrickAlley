@@ -45,13 +45,15 @@ class ObjectHandler:
 
         self.increase_dif(delta_time)
 
+    #chris
     def remove_obstacle(self, obstacle):
         self.obstacle_list.remove(obstacle)
-
+        
+    #Teo
     def closest_enemy(self) -> Obstacle:
-        closest = min(self.obstacle_list, key=lambda x: x.x)
-        return closest
+        return min(self.obstacle_list, key=lambda x: x.x)
 
+    #chris
     def spawn_obstacle(self):
         if self.endless:
             self.heart_rate_down(int(self.game.player.x))
@@ -61,19 +63,22 @@ class ObjectHandler:
         obstacle = Obstacle(self.game, x, y, type)
         self.obstacle_list.append(obstacle)
 
+    #chris
     def spawn_coin(self):
         y = self.calcualte_y_pos()
         x = self.game.player.x + MAX_DEPTH - y
         obstacle = Obstacle(self.game, x, y, 3)
         self.obstacle_list.append(obstacle)
-
+        
+    #Teo,chris
     def calcualte_y_pos(self):
         y = self.leftWall + 0.1 + random() * (self.rightWall - self.leftWall)
         while y >= self.rightWall - 0.1:
             y = self.leftWall + 0.1 + random() * (self.rightWall -
                                                   self.leftWall)
         return y
-
+    
+    #Teo
     def heart_rate_down(self, distance: int):
         heartDown = distance // ENDLESS_HEART_DECREASE
         heartRate = self.startingHeartRate - heartDown
@@ -84,6 +89,7 @@ class ObjectHandler:
         self.weights[-1] = heartRate
         # print(self.weights)
 
+    #Teo,chris
     # Spawn object if needed
     def check_spawn(self, time_prev, timer, spawner):
         if self.timer - time_prev > timer and self.end_distance - int(
@@ -92,7 +98,7 @@ class ObjectHandler:
             return self.timer
         return time_prev
 
-    # DIFFICULTY MOD
+    #chris
     def increase_dif(self, delta_time):
         if self.obstacle_timer > self.obstacle_min_timer:
             self.obstacle_timer -= 0.015 * delta_time
