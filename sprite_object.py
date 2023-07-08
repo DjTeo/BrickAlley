@@ -61,7 +61,7 @@ class AnimatedSprite(SpriteObject):
                  pos=(15.5, 2.5),
                  scale=0.8,
                  shift=0.16,
-                 animation_time=0.12):
+                 animation_time=0.15):
         super().__init__(game, path, pos, scale, shift)
         self.animation_time = animation_time
         self.path = path.rsplit('/', 1)[0]
