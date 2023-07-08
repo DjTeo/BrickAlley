@@ -2,7 +2,7 @@ import pygame, os
 
 from constants import GAME_WIDTH, PIVOT, TEXTURE_SIZE
 
-
+#Teo
 class Helper:
 
     def __init__(self):
@@ -24,7 +24,8 @@ class Helper:
             return pygame.image.load(spriteFile)
         return pygame.transform.smoothscale(pygame.image.load(spriteFile),
                                             size)
-
+        
+    #Tutorial
     @staticmethod
     def LoadTexture(textureFile, res=(TEXTURE_SIZE, TEXTURE_SIZE)):
         textureFile = os.path.join(Helper.textures_dir, textureFile)
