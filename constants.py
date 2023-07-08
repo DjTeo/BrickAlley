@@ -34,11 +34,11 @@ PLAYER_RIGHT_END = 2.85
 MAX_SPEED = 5
 
 # OBSTACLES PROPERTIES
-OBSTACLES_RESPAWN = 1000  # in ms
-MIN_RESPAWN = 400  # in ms
+OBSTACLES_RESPAWN = 1200  # in ms
+MIN_RESPAWN = 500  # in ms
 OBSTACLES_WEIGHTS = [45, 40, 15]  # running enenmy, ball, health
 COINS_SCORE = 5
-COIN_RESPAWN = 5000  # in ms
+COIN_RESPAWN = 4000  # in ms
 
 # define colors
 BLACK = (0, 0, 0)
