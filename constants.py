@@ -36,7 +36,7 @@ MAX_SPEED = 5
 # OBSTACLES PROPERTIES
 OBSTACLES_RESPAWN = 1000  # in ms
 MIN_RESPAWN = 400 # in ms
-OBSTACLES_WEIGHTS = [40, 40, 10, 10]  # running enenmy, ball, health, coin
+OBSTACLES_WEIGHTS = [40, 40, 10]  # running enenmy, ball, health, coin
 COINS_SCORE = 5
 
 # define colors
