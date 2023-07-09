@@ -25,8 +25,8 @@ class Player:
         self.right_end = right_Wall - PLAYER_SIZE_SCALE
         self.end_distance = end_distance
 
-        self.player_pain = Helper.PrepareSound("player_pain.wav", 0.75)
-        self.collect_sound = Helper.PrepareSound("collect.wav")
+        self.player_pain = Helper.PrepareSound("player_pain.wav", 0.5)
+        self.collect_sound = Helper.PrepareSound("collect.wav", 0.6)
         self.blood_screen = Helper.LoadTexture('blood_texture.png', RES)
 
         self.left_hand = Helper.LoadSprite('leftHand.png',
@@ -53,7 +53,7 @@ class Player:
             self.forward_speed += 0.075 * delta_time
         else:
             self.forward_speed = self.max_speed
-            
+
     #Tutorial
     # Player got hit
     def get_damage(self, damage):
@@ -132,7 +132,7 @@ class Player:
                 self.game.object_handler.remove_obstacle(closest)
         elif closest.x <= self.x:
             self.game.object_handler.remove_obstacle(closest)
-    
+
     def update(self, delta_time):
         self.timer += delta_time
         self.movement(delta_time)
@@ -140,7 +140,7 @@ class Player:
         if self.game.object_handler.obstacle_list:
             self.check_collision()
         self.increase_dif(delta_time)
-    
+
     #chris
     def render(self, screen):
         if (self.timer //
@@ -167,7 +167,7 @@ class Player:
         if self.player_hit:
             screen.blit(self.blood_screen, (0, 0))
             self.player_hit = False
-    
+
     @property
     def pos(self):
         return self.x, self.y

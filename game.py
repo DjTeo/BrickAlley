@@ -72,7 +72,7 @@ class Game():
     def load_assets(self):
         # initialize Helper class
         _ = Helper()
-        Helper.PlayMusic("8bit_tune.mp3")
+        Helper.PlayMusic("8bit_tune.mp3",0.4)
 
     def load_states(self):
         self.title_screen = MainMenu(self)
