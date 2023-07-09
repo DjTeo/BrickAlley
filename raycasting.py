@@ -66,6 +66,7 @@ class RayCasting:
 
             for i in range(MAX_DEPTH):
                 tile_hor = int(x_hor), int(y_hor)
+                # Teo
                 if tile_hor[1] == self.leftWall or tile_hor[
                         1] == self.rightWall:
                     if tile_hor[0] % 23 == 0 and tile_hor[1] == self.rightWall:
@@ -76,7 +77,7 @@ class RayCasting:
                         break
                     texture_hor = 1
                     break
-
+                # end Teo
                 x_hor += dx
                 y_hor += dy
                 depth_hor += delta_depth
@@ -92,7 +93,7 @@ class RayCasting:
 
             for i in range(MAX_DEPTH):
                 tile_vert = int(x_vert), int(y_vert)
-                #RENDER THE EXIT DOOR AT MAX DEPTH
+                #RENDER THE EXIT DOOR AT MAX DEPTH. Teo
                 if i == int(remain_dist):
                     if tile_vert[1] == self.middleLeft:
                         texture_vert = 3
@@ -103,6 +104,7 @@ class RayCasting:
                     else:
                         texture_vert = 1
                         break
+                # end Teo
                 x_vert += dx
                 y_vert += dy
                 depth_vert += delta_depth
