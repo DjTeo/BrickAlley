@@ -21,3 +21,6 @@
 #### Credits:
 - Theodosis Gkikas
 - Christos Ntoulias
+
+### Gameplay Video:
+[![Gameplay Video](https://img.youtube.com/vi/NmGu_A8OT0Q/0.jpg)](https://youtu.be/NmGu_A8OT0Q)
